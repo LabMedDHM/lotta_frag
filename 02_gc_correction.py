@@ -2,8 +2,9 @@ import pandas as pd
 from pyfaidx import Fasta
 import numpy as np
 from statsmodels.nonparametric.smoothers_lowess import lowess
+from config import BIN_SIZE as bin_size
 
-bin_size = 1000000
+
 genome_fasta = "/labmed/workspace/lotta/data/hg38.fa"
 input_path = f"/labmed/workspace/lotta/finaletoolkit/dataframes_notebook/final_feature_matrix_blacklist_filtered_{bin_size}.tsv"
 output_path = f"/labmed/workspace/lotta/finaletoolkit/dataframes_notebook/final_feature_matrix_gc_corrected_{bin_size}.tsv"

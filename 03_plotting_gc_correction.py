@@ -6,12 +6,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 from sklearn.impute import SimpleImputer
+from config import BIN_SIZE as bin_size
+
 
 sns.set(style="whitegrid", rc={"figure.figsize":(10,6)})
 
-original_path = "/labmed/workspace/lotta/finaletoolkit/dataframes_notebook/final_feature_matrix.tsv"
-blacklist_filtered_path = "/labmed/workspace/lotta/finaletoolkit/dataframes_notebook/final_feature_matrix_blacklist_filtered.tsv"
-gc_corrected_path = "/labmed/workspace/lotta/finaletoolkit/dataframes_notebook/final_feature_matrix_gc_corrected.tsv"
+original_path = f"/labmed/workspace/lotta/finaletoolkit/dataframes_notebook/final_feature_matrix_{bin_size}.tsv"
+blacklist_filtered_path = f"/labmed/workspace/lotta/finaletoolkit/dataframes_notebook/final_feature_matrix_blacklist_filtered_{bin_size}.tsv"
+gc_corrected_path = f"/labmed/workspace/lotta/finaletoolkit/dataframes_notebook/final_feature_matrix_gc_corrected_{bin_size}.tsv"
 
 num_cols = ["mean", "median", "stdev", "min", "max", "wps_value"]
 

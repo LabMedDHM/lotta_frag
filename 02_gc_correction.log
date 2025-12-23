@@ -263,4 +263,4 @@ Processing sample: EE88322
 Processing sample: EE88323
 Processing sample: EE88324
 Processing sample: EE88325
-GC-corrected matrix saved to: /labmed/workspace/lotta/finaletoolkit/dataframes_notebook/final_feature_matrix_gc_corrected_1000000.tsv
+GC-corrected matrix saved to: /labmed/workspace/lotta/finaletoolkit/dataframes_notebook/final_feature_matrix_gc_corrected_50000.tsv

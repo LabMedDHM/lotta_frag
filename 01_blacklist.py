@@ -1,6 +1,7 @@
 import pandas as pd
+from config import BIN_SIZE as bin_size
 
-bin_size = 1000000
+
 feature_matrix = f"/labmed/workspace/lotta/finaletoolkit/dataframes_notebook/final_feature_matrix_{bin_size}.tsv"
 blacklist_file = "/labmed/workspace/lotta/data/wgEncodeDacMapabilityConsensusExcludable.bed.gz"
 output_file = f"/labmed/workspace/lotta/finaletoolkit/dataframes_notebook/final_feature_matrix_blacklist_filtered_{bin_size}.tsv"

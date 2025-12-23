@@ -108,6 +108,12 @@ control_samples = [
 
 BASE_DIR = "/labmed/workspace/lotta/finaletoolkit/output_workflow"
 
+# Daten:
+# Bedgraph Files
+# Frag.gz -> BigWig -> Bedgraph -> in diesem Notebook
+# Bedgraph = tabular format with chromosome, start, end, and WPS value columns
+# Frag.gz = tabular format with chromosome, start, end, and fragment count columns
+
 def find_sample_folder(sample, base_dir=BASE_DIR):
     for root, dirs, files in os.walk(base_dir):
         for f in files:
@@ -186,6 +192,7 @@ else:
         # Gibt die erste gefundene Datei zurück 
         return matches[0] if matches else None
 
+    # cancer samples
     for sample_id in cancer_samples:
         file_path = find_bedgraphs(sample_id)
         if file_path:
@@ -197,6 +204,7 @@ else:
         else:
             print(f"Bedgraph file for sample {sample_id} not found.")
 
+    # control samples
     for sample_id in control_samples:
         file_path = find_bedgraphs(sample_id)
         if file_path:
@@ -220,6 +228,8 @@ else:
 # 
 
 # In[5]:
+
+# Fragments (Fragment Lengths Feature)
 
 
 tsv_dir = os.path.expanduser('/labmed/workspace/lotta/finaletoolkit/output_workflow')
@@ -599,7 +609,8 @@ master_feature_matrix["shannon_entropy"] = \ master_feature_matrix.index.map(ent
 # In[18]:
 
 
-bin_size = 1000000
+from config import BIN_SIZE as bin_size
+print(bin_size)
 if os.path.exists(f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/binned_combined_df_{bin_size}.parquet"):
     print("Loading existing binned combined dataframe...")
     binned_combined_df = pd.read_parquet(f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/binned_combined_df_{bin_size}.parquet")
@@ -610,7 +621,6 @@ else:
     print(binned_combined_df[binned_combined_df['chrom'] =='chr2'])
     binned_combined_df['wps_value'] = binned_combined_df.groupby(['chrom', 'bin'])['wps_value'].transform(lambda x: x.fillna(x.median()))
     binned_combined_df.to_parquet(f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/binned_combined_df_{bin_size}.parquet")
-
 
 # # Feature Matrix for LR rows=sample and columns=bins+groups 
 # 
@@ -712,5 +722,5 @@ merged_df = pd.merge(
 )
 
 print(merged_df.head())
-merged_df.to_csv(f"/labmed/workspace/lotta/finaletoolkit/dataframes_notebook/finale_feature_matrix_{bin_size}.tsv", sep="\t", index=False)
+merged_df.to_csv(f"/labmed/workspace/lotta/finaletoolkit/dataframes_notebook/final_feature_matrix_{bin_size}.tsv", sep="\t", index=False)
 

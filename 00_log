@@ -1,0 +1,354 @@
+nohup: ignoring input
+/labmed/workspace/lotta/finaletoolkit/ba_analysis_scripts/00_preprocessing_exploration.py:311: FutureWarning: 
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
+
+  sns.boxplot(
+No handles with labels found to put in legend.
+Configuration loaded for 262 samples:
+['EE87789', 'EE87790', 'EE87791', 'EE87792', 'EE87793', 'EE87794', 'EE87795', 'EE87796', 'EE87797', 'EE87798', 'EE87799', 'EE87800', 'EE87801', 'EE87802', 'EE87803', 'EE87804', 'EE87805', 'EE87806', 'EE87807', 'EE87809', 'EE87810', 'EE88325', 'EE85727', 'EE85730', 'EE85731', 'EE85732', 'EE85733', 'EE85734', 'EE85737', 'EE85739', 'EE85741', 'EE85743', 'EE85746', 'EE85749', 'EE85750', 'EE85752', 'EE85753', 'EE86234', 'EE86255', 'EE86259', 'EE87865', 'EE87866', 'EE87867', 'EE87868', 'EE87869', 'EE87870', 'EE87871', 'EE87872', 'EE87873', 'EE87874', 'EE87875', 'EE87876', 'EE87877', 'EE87878', 'EE87879', 'EE87880', 'EE87881', 'EE87882', 'EE87883', 'EE87884', 'EE87885', 'EE87886', 'EE87887', 'EE87888', 'EE87889', 'EE87890', 'EE87891', 'EE87896', 'EE87897', 'EE87898', 'EE87899', 'EE87900', 'EE87901', 'EE87902', 'EE87903', 'EE87904', 'EE87905', 'EE87906', 'EE87907', 'EE87908', 'EE87909', 'EE87910', 'EE87911', 'EE87912', 'EE87913', 'EE87914', 'EE87915', 'EE87916', 'EE87917', 'EE87918', 'EE87919', 'EE86268', 'EE86270', 'EE86271', 'EE86272', 'EE86273', 'EE88290', 'EE88291', 'EE88292', 'EE88293', 'EE88294', 'EE88295', 'EE88296', 'EE88297', 'EE88298', 'EE88299', 'EE88300', 'EE88301', 'EE88302', 'EE88303', 'EE88304', 'EE88305', 'EE88306', 'EE88307', 'EE88308', 'EE88309', 'EE88310', 'EE88311', 'EE88312', 'EE88313', 'EE88314', 'EE88315', 'EE88316', 'EE88317', 'EE88318', 'EE88319', 'EE88320', 'EE88321', 'EE88322', 'EE88323', 'EE88324', 'EE85898', 'EE85904', 'EE85905', 'EE85908', 'EE85918', 'EE85928', 'EE85936', 'EE85937', 'EE85941', 'EE85959', 'EE85963', 'EE85970', 'EE85971', 'EE85980', 'EE85985', 'EE85987', 'EE85988', 'EE86275', 'EE86276', 'EE87945', 'EE87946', 'EE87920', 'EE87921', 'EE87922', 'EE87923', 'EE87924', 'EE87925', 'EE87926', 'EE87927', 'EE87928', 'EE87929', 'EE87931', 'EE87932', 'EE87933', 'EE87934', 'EE87935', 'EE87936', 'EE87937', 'EE87938', 'EE87939', 'EE87940', 'EE87941', 'EE87942', 'EE87943', 'EE87944', 'EE87947', 'EE87948', 'EE87949', 'EE87950', 'EE87951', 'EE87952', 'EE87953', 'EE87954', 'EE87955', 'EE87956', 'EE87957', 'EE87958', 'EE87959', 'EE87960', 'EE87961', 'EE87962', 'EE87963', 'EE87964', 'EE87965', 'EE87966', 'EE87967', 'EE87968', 'EE87969', 'EE87970', 'EE87971', 'EE87972', 'EE87973', 'EE87974', 'EE87975', 'EE87976', 'EE87977', 'EE87978', 'EE87979', 'EE87980', 'EE87981', 'EE87982', 'EE87983', 'EE87984', 'EE87985', 'EE87986', 'EE87987', 'EE87988', 'EE87989', 'EE87990', 'EE87991', 'EE87992', 'EE87993', 'EE87994', 'EE87995', 'EE87996', 'EE87997', 'EE87998', 'EE87999', 'EE88000', 'EE88001', 'EE88002', 'EE88003', 'EE88004', 'EE88005', 'EE88006', 'EE88007', 'EE88008', 'EE88009', 'EE88010', 'EE88011', 'EE88012', 'EE88013', 'EE88014', 'EE88015', 'EE88016', 'EE88017', 'EE88018', 'EE88019', 'EE88020', 'EE88021', 'EE88022', 'EE88023', 'EE88024', 'EE88025', 'EE88026', 'EE88027', 'EE88028', 'EE88029', 'EE88030', 'EE88031', 'EE88032']
+Loading existing combined dataframe...
+Mean Peak Lengths:
+     group  peak_length
+0   cancer   166.038168
+1  control   166.931298
+ sample   group  cancerous_peaks_ratio  healthy_peaks_ratio
+EE88306  cancer               0.081638             0.140574
+EE87911  cancer               0.083876             0.149986
+EE87901  cancer               0.084592             0.143848
+EE88291  cancer               0.089611             0.145120
+EE87899  cancer               0.091435             0.143792
+EE86270  cancer               0.092277             0.131244
+EE88302  cancer               0.092293             0.147018
+EE87904  cancer               0.093562             0.140174
+EE87907  cancer               0.094611             0.125518
+EE87794  cancer               0.095184             0.141501
+EE87914  cancer               0.096411             0.186585
+EE88321  cancer               0.096953             0.172861
+EE87793  cancer               0.098466             0.174641
+EE87797  cancer               0.098579             0.124677
+EE87918  cancer               0.100885             0.144058
+EE88314  cancer               0.101075             0.139030
+EE87898  cancer               0.101291             0.235621
+EE87805  cancer               0.102362             0.169949
+EE87916  cancer               0.103696             0.253737
+EE87919  cancer               0.103703             0.302958
+EE86255  cancer               0.104608             0.045536
+EE87897  cancer               0.105301             0.141498
+EE88320  cancer               0.105724             0.151442
+EE87795  cancer               0.105904             0.152954
+EE87902  cancer               0.106645             0.068545
+EE88305  cancer               0.106866             0.145682
+EE86272  cancer               0.106960             0.130324
+EE87880  cancer               0.107131             0.134067
+EE87802  cancer               0.107754             0.140936
+EE87905  cancer               0.109031             0.277320
+EE87796  cancer               0.109261             0.171071
+EE87910  cancer               0.109545             0.144916
+EE87915  cancer               0.109869             0.259131
+EE86259  cancer               0.110241             0.047045
+EE87868  cancer               0.111936             0.141247
+EE87917  cancer               0.111991             0.190299
+EE88304  cancer               0.112483             0.160854
+EE87789  cancer               0.112517             0.140535
+EE88297  cancer               0.113696             0.176866
+EE88296  cancer               0.114123             0.172285
+EE88309  cancer               0.115214             0.153699
+EE88301  cancer               0.116605             0.169894
+EE87866  cancer               0.117302             0.132185
+EE87906  cancer               0.119045             0.260725
+EE88324  cancer               0.120423             0.139183
+EE88307  cancer               0.121905             0.169318
+EE86234  cancer               0.122056             0.053360
+EE87900  cancer               0.123230             0.159652
+EE88300  cancer               0.123310             0.278630
+EE87807  cancer               0.123524             0.274718
+EE87800  cancer               0.125364             0.171762
+EE87890  cancer               0.125677             0.159021
+EE88292  cancer               0.125956             0.298217
+EE87879  cancer               0.126506             0.139588
+EE87908  cancer               0.127470             0.257157
+EE88311  cancer               0.127513             0.143542
+EE87872  cancer               0.127554             0.117270
+EE86268  cancer               0.127727             0.058965
+EE88298  cancer               0.130269             0.171325
+EE88294  cancer               0.131781             0.312222
+EE88303  cancer               0.132697             0.286231
+EE87912  cancer               0.133526             0.274856
+EE86273  cancer               0.134279             0.129838
+EE88315  cancer               0.134829             0.256013
+EE88295  cancer               0.135679             0.163279
+EE88293  cancer               0.136326             0.286853
+EE87790  cancer               0.137034             0.158810
+EE87801  cancer               0.137404             0.160434
+EE88308  cancer               0.141472             0.281674
+EE87913  cancer               0.142082             0.268478
+EE87876  cancer               0.143277             0.142977
+EE87885  cancer               0.143848             0.282736
+EE88319  cancer               0.143977             0.136099
+EE88318  cancer               0.144117             0.304384
+EE87798  cancer               0.144541             0.331286
+EE87871  cancer               0.145312             0.260660
+EE87873  cancer               0.148192             0.189268
+EE88313  cancer               0.148535             0.303742
+EE87791  cancer               0.149651             0.302128
+EE87809  cancer               0.149721             0.331037
+EE88310  cancer               0.150738             0.161985
+EE88323  cancer               0.150820             0.152705
+EE87878  cancer               0.150926             0.302014
+EE88317  cancer               0.151239             0.155188
+EE87803  cancer               0.151345             0.292556
+EE87810  cancer               0.152253             0.296104
+EE87886  cancer               0.152714             0.133001
+EE88316  cancer               0.153353             0.289873
+EE88312  cancer               0.153980             0.160081
+EE87887  cancer               0.156360             0.140733
+EE87806  cancer               0.157849             0.295950
+EE87804  cancer               0.158399             0.285337
+EE87903  cancer               0.158491             0.271655
+EE87792  cancer               0.159664             0.273237
+EE87877  cancer               0.160131             0.277235
+EE87869  cancer               0.160482             0.275869
+EE87883  cancer               0.161116             0.272763
+EE87889  cancer               0.163454             0.131664
+EE87882  cancer               0.163807             0.155584
+EE87875  cancer               0.164887             0.271844
+EE88299  cancer               0.165254             0.289408
+EE85730  cancer               0.167692             0.261202
+EE87867  cancer               0.168062             0.259517
+EE87799  cancer               0.168915             0.166623
+EE85739  cancer               0.169394             0.068750
+EE85734  cancer               0.170141             0.055450
+EE86271  cancer               0.170807             0.236429
+EE88290  cancer               0.171068             0.331325
+EE85737  cancer               0.175150             0.064226
+EE85733  cancer               0.176773             0.073679
+EE85727  cancer               0.177148             0.073287
+EE85749  cancer               0.182398             0.075357
+EE85731  cancer               0.182620             0.068516
+EE85753  cancer               0.185223             0.083481
+EE87909  cancer               0.186328             0.317584
+EE85746  cancer               0.188165             0.081376
+EE85741  cancer               0.188689             0.078066
+EE85750  cancer               0.188837             0.078873
+EE87896  cancer               0.189771             0.279119
+EE85732  cancer               0.201178             0.088338
+EE87891  cancer               0.205123             0.092065
+EE87874  cancer               0.207088             0.315175
+EE87865  cancer               0.207679             0.235133
+EE88322  cancer               0.215236             0.315478
+EE88325  cancer               0.226659             0.303454
+EE87870  cancer               0.226704             0.293270
+EE87888  cancer               0.228281             0.243835
+EE87881  cancer               0.237716             0.297198
+EE87884  cancer               0.244086             0.292618
+EE85743  cancer               0.262281             0.159117
+EE85752  cancer               0.263023             0.157690
+EE85988 control               0.061120             0.130996
+EE85898 control               0.062876             0.134859
+EE85904 control               0.064967             0.127475
+EE85959 control               0.065273             0.148222
+EE85985 control               0.068703             0.145563
+EE85970 control               0.071305             0.260138
+EE85928 control               0.076641             0.157675
+EE87978 control               0.080317             0.102927
+EE85908 control               0.081672             0.138378
+EE87937 control               0.082182             0.126954
+EE87938 control               0.084108             0.128707
+EE85963 control               0.084568             0.270905
+EE87974 control               0.084787             0.116574
+EE85971 control               0.085380             0.260308
+EE85937 control               0.086844             0.262761
+EE85987 control               0.087662             0.158123
+EE87966 control               0.088368             0.140769
+EE85980 control               0.088838             0.263653
+EE88002 control               0.089104             0.131347
+EE87979 control               0.089548             0.125992
+EE88006 control               0.089913             0.119559
+EE87999 control               0.090457             0.130339
+EE85918 control               0.090905             0.262757
+EE87950 control               0.091777             0.109227
+EE85936 control               0.093161             0.159707
+EE88005 control               0.095240             0.135283
+EE87964 control               0.095385             0.124125
+EE87932 control               0.095996             0.122601
+EE88023 control               0.096079             0.120645
+EE87976 control               0.096476             0.125039
+EE88030 control               0.096935             0.126789
+EE88010 control               0.096938             0.125398
+EE87954 control               0.097445             0.115713
+EE87927 control               0.098357             0.132321
+EE87935 control               0.099474             0.115241
+EE88012 control               0.101348             0.135558
+EE85905 control               0.101775             0.295432
+EE87936 control               0.101932             0.140645
+EE87970 control               0.102010             0.131134
+EE87980 control               0.102172             0.132820
+EE87922 control               0.102445             0.129581
+EE87990 control               0.103067             0.137428
+EE85941 control               0.103270             0.294044
+EE88001 control               0.103315             0.125347
+EE87931 control               0.103315             0.121224
+EE87996 control               0.103945             0.112559
+EE88013 control               0.104812             0.140649
+EE87933 control               0.104861             0.130951
+EE88022 control               0.105191             0.128575
+EE88031 control               0.105280             0.140813
+EE88026 control               0.105360             0.137846
+EE87985 control               0.105941             0.133330
+EE88024 control               0.106582             0.133512
+EE87948 control               0.107199             0.147084
+EE86275 control               0.107513             0.063055
+EE87923 control               0.107968             0.140785
+EE87925 control               0.109261             0.142859
+EE88003 control               0.109279             0.243049
+EE88029 control               0.109351             0.125302
+EE86276 control               0.109902             0.074338
+EE88028 control               0.110079             0.119637
+EE87941 control               0.110660             0.122615
+EE87984 control               0.111105             0.140997
+EE87939 control               0.112143             0.274427
+EE87994 control               0.112161             0.135431
+EE87960 control               0.112217             0.142070
+EE87961 control               0.112229             0.145021
+EE87962 control               0.112354             0.132895
+EE87981 control               0.112420             0.139894
+EE87973 control               0.112478             0.148099
+EE87983 control               0.112969             0.142644
+EE88004 control               0.113384             0.136278
+EE87967 control               0.113403             0.143631
+EE87997 control               0.113857             0.142837
+EE87969 control               0.114690             0.149892
+EE87963 control               0.114963             0.133324
+EE88000 control               0.115473             0.146113
+EE87989 control               0.116075             0.143155
+EE87924 control               0.116409             0.148000
+EE87958 control               0.116498             0.139008
+EE87998 control               0.117005             0.143247
+EE87987 control               0.117006             0.253687
+EE87929 control               0.117060             0.126076
+EE87971 control               0.117242             0.146768
+EE88011 control               0.117448             0.143146
+EE87975 control               0.118197             0.259068
+EE87977 control               0.119431             0.151851
+EE87959 control               0.120859             0.139502
+EE87944 control               0.122245             0.139343
+EE87928 control               0.123486             0.136999
+EE88007 control               0.124862             0.279498
+EE88014 control               0.125728             0.138580
+EE88032 control               0.125817             0.136099
+EE88015 control               0.125834             0.133440
+EE87943 control               0.127475             0.237989
+EE87968 control               0.129055             0.162031
+EE88017 control               0.130402             0.231516
+EE88019 control               0.130965             0.136833
+EE88020 control               0.131182             0.131021
+EE87956 control               0.131534             0.143992
+EE87988 control               0.131785             0.245585
+EE87986 control               0.132129             0.260937
+EE87942 control               0.132428             0.244330
+EE87940 control               0.133442             0.247739
+EE87992 control               0.133447             0.250388
+EE87993 control               0.138110             0.139434
+EE87982 control               0.138637             0.256102
+EE87934 control               0.139073             0.253867
+EE87947 control               0.140067             0.250463
+EE87951 control               0.141563             0.239460
+EE87926 control               0.142017             0.233744
+EE88025 control               0.143148             0.247777
+EE87952 control               0.144705             0.132821
+EE87945 control               0.146663             0.246497
+EE87946 control               0.148421             0.253192
+EE87991 control               0.148583             0.247733
+EE87955 control               0.149295             0.247397
+EE87965 control               0.149849             0.250330
+EE87957 control               0.150672             0.244610
+EE87953 control               0.151121             0.248867
+EE88008 control               0.151425             0.244939
+EE88018 control               0.152665             0.240224
+EE88021 control               0.154099             0.249241
+EE88016 control               0.154901             0.256064
+EE87995 control               0.156770             0.275502
+EE88027 control               0.157690             0.273339
+EE87949 control               0.165510             0.283906
+EE88009 control               0.166933             0.247207
+EE87972 control               0.171907             0.265896
+EE87921 control               0.204593             0.107230
+EE87920 control               0.205467             0.106868/labmed/workspace/lotta/finaletoolkit/ba_analysis_scripts/00_preprocessing_exploration.py:335: FutureWarning: 
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
+
+  sns.boxplot(
+
+    sample   group  ... ultra_short_peaks_ratio  alt_ratio
+0  EE87789  cancer  ...                0.009693   0.161982
+1  EE87790  cancer  ...                0.009294   0.190711
+2  EE87791  cancer  ...                0.010372   0.175298
+3  EE87792  cancer  ...                0.018194   0.198666
+4  EE87793  cancer  ...                0.004902   0.128952
+
+[5 rows x 16 columns]
+        cancer_type  mean_fragment  ...  ultra_short_peaks_ratio  alt_ratio
+sample                              ...                                    
+EE87789    bileduct     166.199948  ...                 0.009693   0.161982
+EE87790    bileduct     162.001936  ...                 0.009294   0.190711
+EE87791    bileduct     165.534641  ...                 0.010372   0.175298
+EE87792    bileduct     165.282833  ...                 0.018194   0.198666
+EE87793    bileduct     164.777683  ...                 0.004902   0.128952
+
+[5 rows x 14 columns]
+50000
+          sample       group chrom   bin  wps_value
+2313     EE85727  colorectal  chr2     5  -0.856817
+2314     EE85727  colorectal  chr2    13  -0.243919
+2315     EE85727  colorectal  chr2    26  -1.283122
+2316     EE85727  colorectal  chr2    46  -0.964011
+2317     EE85727  colorectal  chr2    69  -0.076805
+...          ...         ...   ...   ...        ...
+1120994  EE88325    bileduct  chr2  4826   0.239052
+1120995  EE88325    bileduct  chr2  4831  -0.113512
+1120996  EE88325    bileduct  chr2  4832  -0.210640
+1120997  EE88325    bileduct  chr2  4838   0.058968
+1120998  EE88325    bileduct  chr2  4841  -2.148379
+
+[78862 rows x 5 columns]
+         chr10_bin_1008  chr10_bin_101  ...  chr9_bin_93       group
+sample                                  ...                         
+EE85727        0.195821      -0.490268  ...     0.013716  colorectal
+EE85730        0.060701      -0.061746  ...    -0.433158  colorectal
+EE85731       -1.023396      -1.145096  ...    -0.975761  colorectal
+EE85732       -0.721930      -0.035474  ...    -1.368200  colorectal
+EE85733       -0.095641      -0.132600  ...    -0.519531  colorectal
+
+[5 rows x 4286 columns]
+  chrom    start     stop name  ...    max   sample     group  bin
+0  chr1   920000   925000    .  ...  190.0  EE87789  bileduct   18
+1  chr1  1070000  1075000    .  ...  208.0  EE87789  bileduct   21
+2  chr1  1165000  1170000    .  ...  233.0  EE87789  bileduct   23
+3  chr1  1170000  1175000    .  ...  201.0  EE87789  bileduct   23
+4  chr1  1175000  1180000    .  ...  218.0  EE87789  bileduct   23
+
+[5 rows x 12 columns]
+    sample       group chrom  ...      stdev         min         max
+0  EE85727  colorectal  chr1  ...  63.500000   22.000000  149.000000
+1  EE85727  colorectal  chr1  ...   0.500000  133.000000  134.000000
+2  EE85727  colorectal  chr1  ...  15.918508   49.000000  103.666667
+3  EE85727  colorectal  chr1  ...  57.685560   63.500000  218.500000
+4  EE85727  colorectal  chr1  ...  23.568542   80.666667  140.333333
+
+[5 rows x 9 columns]
+(1122670, 9)
+    sample       group chrom  bin  wps_value feature_name
+0  EE85727  colorectal  chr1   18  -0.247059  chr1_bin_18
+1  EE85727  colorectal  chr1   21  -0.380760  chr1_bin_21
+2  EE85727  colorectal  chr1   23  -0.556391  chr1_bin_23
+3  EE85727  colorectal  chr1   25  -0.690386  chr1_bin_25
+4  EE85727  colorectal  chr1   26  -0.353535  chr1_bin_26
+    sample       group chrom  bin  ...      stdev         min         max  wps_value
+0  EE85727  colorectal  chr1   18  ...  63.500000   22.000000  149.000000  -0.247059
+1  EE85727  colorectal  chr1   21  ...   0.500000  133.000000  134.000000  -0.380760
+2  EE85727  colorectal  chr1   23  ...  15.918508   49.000000  103.666667  -0.556391
+3  EE85727  colorectal  chr1   25  ...  57.685560   63.500000  218.500000  -0.690386
+4  EE85727  colorectal  chr1   26  ...  23.568542   80.666667  140.333333  -0.353535
+
+[5 rows x 10 columns]
