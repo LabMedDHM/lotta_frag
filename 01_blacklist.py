@@ -2,9 +2,9 @@ import pandas as pd
 from config import BIN_SIZE as bin_size
 
 
-feature_matrix = f"/labmed/workspace/lotta/finaletoolkit/dataframes_notebook/final_feature_matrix_{bin_size}.tsv"
+feature_matrix = f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/final_feature_matrix_{bin_size}.tsv"
 blacklist_file = "/labmed/workspace/lotta/data/wgEncodeDacMapabilityConsensusExcludable.bed.gz"
-output_file = f"/labmed/workspace/lotta/finaletoolkit/dataframes_notebook/final_feature_matrix_blacklist_filtered_{bin_size}.tsv"
+output_file = f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/final_feature_matrix_blacklist_filtered_{bin_size}.tsv"
 
 df = pd.read_csv(feature_matrix, sep="\t")
 df["start"] = df["bin"] * bin_size
