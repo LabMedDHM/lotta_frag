@@ -30,7 +30,7 @@ def cross_validation(X, y, pipeline, n_folds=5):
         ergebnis['fold'] = fold_nr + 1
         ergebnisse.append(ergebnis)
         
-        print(f"  AUC = {ergebnis['auc']:.3f}")
+        print(f"  AUC = {ergebnis['auc']:.3f}, Best C = {ergebnis.get('best_C', 'N/A')}")
     
     return ergebnisse
 
@@ -59,8 +59,14 @@ def cv_fold_run(X, y, train_index, test_index, pipeline):
     # oder spezifisch 'lasso_cv' heißt. Hier versuchen wir es generisch oder fallback auf 'lasso_cv'.
     
     selected_features = {}
+    best_C = None
     if 'lasso_cv' in pipeline.named_steps:
         model = pipeline.named_steps['lasso_cv']
+        
+        # Best C Value extrahieren
+        if hasattr(model, 'C_'):
+             best_C = model.C_[0]
+             
         if hasattr(model, 'coef_'):
             coefs = model.coef_[0]
             feature_names = X.columns
@@ -71,6 +77,7 @@ def cv_fold_run(X, y, train_index, test_index, pipeline):
     
     return {
         'auc': auc_score,
+        'best_C': best_C,
         'y_test': y_test,
         'y_prob': y_prob,
         'fpr': fpr,
@@ -122,12 +129,31 @@ def plot_roc_curves(ergebnisse):
     
     plt.plot([0, 1], [0, 1], 'k--', label='Random Classification')
     
+    # ergebnisse = [
+    #     {"y_test": y_test_fold1, "y_prob": y_prob_fold1}, # : wahren Labels im test fold
+    #     {"y_test": y_test_fold2, "y_prob": y_prob_fold2}, # : vorhergesagten Wahrscheinlichkeiten für cancer
+    #     ...
+    # ]
+
+    all_y_true = np.concatenate([e['y_test'] for e in ergebnisse]) # Array von allen wahren labels aus den folds
+    all_y_prob = np.concatenate([e['y_prob'] for e in ergebnisse]) # Array von allen vorhergesagten Wahrscheinlichkeiten aus den folds
+    
+    print(f"DEBUG: Pooled y_true shape: {all_y_true.shape}, y_prob shape: {all_y_prob.shape}")
+    if np.isnan(all_y_prob).any():
+        print("DEBUG: y_prob contains NaNs!")
+    
+    fpr_pooled, tpr_pooled, _ = roc_curve(all_y_true, all_y_prob) # ROC Kurve für alle folds
+    auc_pooled = roc_auc_score(all_y_true, all_y_prob) # AUC für alle folds
+    
+    plt.plot(fpr_pooled, tpr_pooled, color='blue', linewidth=2, 
+             label=f"Pooled ROC (AUC = {auc_pooled:.3f})")
+    
     mean_auc = np.mean([e['auc'] for e in ergebnisse])
     std_auc = np.std([e['auc'] for e in ergebnisse])
     
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
-    plt.title(f'ROC Curves - 5-Fold CV\nMean AUC = {mean_auc:.3f} ± {std_auc:.3f}')
+    plt.title(f'ROC Curves - 5-Fold CV\nMean AUC = {mean_auc:.3f} ± {std_auc:.3f}\nPooled AUC = {auc_pooled:.3f}')
     plt.legend(loc='lower right')
     plt.grid(True, alpha=0.3)
     plt.show()
