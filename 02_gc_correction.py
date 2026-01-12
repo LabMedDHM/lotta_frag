@@ -9,6 +9,7 @@ genome_fasta = "/labmed/workspace/lotta/data/hg38.fa"
 input_path = f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/final_feature_matrix_blacklist_filtered_{bin_size}.tsv"
 output_path = f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/final_feature_matrix_gc_corrected_{bin_size}.tsv"
 
+blacklist_filtered_feature_matrix = pd.read_csv(input_path, sep="\t")
 df = pd.read_csv(input_path, sep="\t")
 
 df["start"] = df["bin"] * bin_size
@@ -22,9 +23,21 @@ def calc_gc(chrom, start, end):
         return np.nan
     return (seq.count("G") + seq.count("C")) / len(seq)
 
+
+
 print("Calculating GC-content…")
 df["GC"] = df.apply(lambda row: calc_gc(str(row["chrom"]), int(row["start"]), int(row["end"])), axis=1)
 
+#Füge die neue spalte GC von df in die blacklist filtered matrix an der richtigen stelle  auch ein und speicher die matrix wieder
+#blacklist_filtered_feature_matrix["GC"] = df["GC"]
+blacklist_filtered_feature_matrix = blacklist_filtered_feature_matrix.merge(
+    df,
+    on=["sample", "chrom", "bin"],
+    how="left",
+    validate="one_to_one"
+)
+blacklist_filtered_feature_matrix.to_csv(input_path, sep="\t", index=False)
+print(blacklist_filtered_feature_matrix.head())
 
 coverage_cols = [
     col for col in df.columns
@@ -46,7 +59,8 @@ for sample in df["sample"].unique():
 
         loess_fit = lowess(endog=y, exog=x, frac=0.75, return_sorted=False)
         corrected = y - loess_fit + np.median(y)
-        gc_corrected_df.loc[subset.index, col + "_gc_corrected"] = corrected
+        gc_corrected_df.loc[subset.index, col] = corrected
 
 gc_corrected_df.to_csv(output_path, sep="\t", index=False)
 print(f"GC-corrected matrix saved to: {output_path}")
+print(gc_corrected_df.head())

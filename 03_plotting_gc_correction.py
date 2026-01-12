@@ -9,6 +9,7 @@ from sklearn.impute import SimpleImputer
 from config import BIN_SIZE as bin_size
 
 
+
 sns.set(style="whitegrid", rc={"figure.figsize":(10,6)})
 
 original_path = f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/final_feature_matrix_{bin_size}.tsv"
@@ -102,3 +103,64 @@ df_blacklist_filtered = pd.read_csv(blacklist_filtered_path, sep="\t")
 #run_analysis(df_orig, "Original")
 #run_analysis(df_blacklist_filtered, "Blacklist-Filtered")
 run_analysis(df_gc, "GC-Corrected")
+
+
+def calc_gc(chrom, start, end):
+    seq = genome[chrom][start:end].seq.upper()
+    if len(seq) == 0:
+        return np.nan
+    return (seq.count("G") + seq.count("C")) / len(seq)
+
+def plot_gc_correction_check(sample_id=None):    
+
+    if sample_id is None:
+        sample_id = df["sample"].unique()[0]
+    
+    print(f"Plotting GC correction check for sample: {sample_id}")
+
+    blacklist_filtered_feature_matrix_path = f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/final_feature_matrix_blacklist_filtered_{bin_size}.tsv"
+    blacklist_filtered_feature_matrix = pd.read_csv(blacklist_filtered_feature_matrix_path, sep="\t")
+
+    gc_corrected_feature_matrix_path = f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/final_feature_matrix_gc_corrected_{bin_size}.tsv"
+    gc_corrected_feature_matrix = pd.read_csv(gc_corrected_feature_matrix_path, sep="\t")
+
+
+
+    
+    subset_blacklist_filtered = blacklist_filtered_feature_matrix[blacklist_filtered_feature_matrix["sample"] == sample_id].copy()
+    subset_gc_corrected = gc_corrected_feature_matrix[gc_corrected_feature_matrix["sample"] == sample_id].copy()
+            
+    metrics = [ 'mean', 'median', 'stdev', 'min', 'max', 'wps_value']
+    for metric in metrics: 
+        plt.figure(figsize=(10, 6))
+        
+        # Plot Original
+        sns.regplot(
+            data=subset_blacklist_filtered, x="GC", y=metric, 
+            scatter_kws={'alpha':0.3, 's':10}, 
+            line_kws={'color':'red'},
+            lowess=True, 
+            label="Before Correction"
+        )
+    
+        # Plot Corrected
+        sns.regplot(
+            data=subset_gc_corrected, x="GC", y=metric, 
+            scatter_kws={'alpha':0.3, 's':10}, 
+            line_kws={'color':'blue'},
+            lowess=True, 
+            label="After Correction"
+        )
+        
+        plt.title(f"GC Bias Correction Check - {metric}\nSample: {sample_id}")
+        plt.xlabel("GC Content per Bin")
+        plt.ylabel(metric)
+        plt.legend()
+        
+        out_file = os.path.join("/labmed/workspace/lotta/finaletoolkit/outputs/plots", f"GC_Correction_{metric}_{sample_id}.png")
+        plt.savefig(out_file, dpi=300)
+        print(f"Saved plot to {out_file}")
+        plt.show()
+
+# Run the check for one representative sample
+plot_gc_correction_check("EE87922")

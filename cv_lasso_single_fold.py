@@ -74,7 +74,10 @@ def cv_fold_run(X, y, train_index, test_index, pipeline):
             for name, coef in zip(feature_names, coefs):
                 if coef != 0:
                     selected_features[name] = coef
-    
+            len_selected_features = len(selected_features)
+            len_all_features = len(feature_names) 
+            relative_feature_selection = len_selected_features / len_all_features
+            absolute_feature_selection = len_selected_features
     return {
         'auc': auc_score,
         'best_C': best_C,
@@ -82,7 +85,9 @@ def cv_fold_run(X, y, train_index, test_index, pipeline):
         'y_prob': y_prob,
         'fpr': fpr,
         'tpr': tpr,
-        'selected_features': selected_features
+        'selected_features': selected_features,
+        'relative_feature_selection': relative_feature_selection,
+        'absolute_feature_selection': absolute_feature_selection
     }
 
 
@@ -121,6 +126,7 @@ def analyze_feature_stability(ergebnisse):
 
 
 def plot_roc_curves(ergebnisse):
+    print("Plot roc curve definition")
     plt.figure(figsize=(10, 8))
     
     for e in ergebnisse:
@@ -145,8 +151,16 @@ def plot_roc_curves(ergebnisse):
     fpr_pooled, tpr_pooled, _ = roc_curve(all_y_true, all_y_prob) # ROC Kurve für alle folds
     auc_pooled = roc_auc_score(all_y_true, all_y_prob) # AUC für alle folds
     
+    plt.figure(figsize=(10, 8))
+    plt.title(f"Pooled ROC (AUC = {auc_pooled:.3f})")
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
     plt.plot(fpr_pooled, tpr_pooled, color='blue', linewidth=2, 
              label=f"Pooled ROC (AUC = {auc_pooled:.3f})")
+    plt.legend(loc='lower right')
+    plt.grid(True, alpha=0.3)
+    plt.show()
+    
     
     mean_auc = np.mean([e['auc'] for e in ergebnisse])
     std_auc = np.std([e['auc'] for e in ergebnisse])
