@@ -126,50 +126,35 @@ def analyze_feature_stability(ergebnisse):
 
 
 def plot_roc_curves(ergebnisse):
-    print("Plot roc curve definition")
     plt.figure(figsize=(10, 8))
     
+    # Individual Folds
     for e in ergebnisse:
-        plt.plot(e['fpr'], e['tpr'], alpha=0.7,
+        plt.plot(e['fpr'], e['tpr'], alpha=0.5, linestyle=':',
                  label=f"Fold {e['fold']} (AUC = {e['auc']:.3f})")
     
-    plt.plot([0, 1], [0, 1], 'k--', label='Random Classification')
+    # Pooled ROC
+    all_y_true = np.concatenate([e['y_test'] for e in ergebnisse])
+    all_y_prob = np.concatenate([e['y_prob'] for e in ergebnisse])
+    fpr_pooled, tpr_pooled, _ = roc_curve(all_y_true, all_y_prob)
+    auc_pooled = roc_auc_score(all_y_true, all_y_prob)
     
-    # ergebnisse = [
-    #     {"y_test": y_test_fold1, "y_prob": y_prob_fold1}, # : wahren Labels im test fold
-    #     {"y_test": y_test_fold2, "y_prob": y_prob_fold2}, # : vorhergesagten Wahrscheinlichkeiten für cancer
-    #     ...
-    # ]
-
-    all_y_true = np.concatenate([e['y_test'] for e in ergebnisse]) # Array von allen wahren labels aus den folds
-    all_y_prob = np.concatenate([e['y_prob'] for e in ergebnisse]) # Array von allen vorhergesagten Wahrscheinlichkeiten aus den folds
-    
-    print(f"DEBUG: Pooled y_true shape: {all_y_true.shape}, y_prob shape: {all_y_prob.shape}")
-    if np.isnan(all_y_prob).any():
-        print("DEBUG: y_prob contains NaNs!")
-    
-    fpr_pooled, tpr_pooled, _ = roc_curve(all_y_true, all_y_prob) # ROC Kurve für alle folds
-    auc_pooled = roc_auc_score(all_y_true, all_y_prob) # AUC für alle folds
-    
-    plt.figure(figsize=(10, 8))
-    plt.title(f"Pooled ROC (AUC = {auc_pooled:.3f})")
-    plt.xlabel('False Positive Rate')
-    plt.ylabel('True Positive Rate')
-    plt.plot(fpr_pooled, tpr_pooled, color='blue', linewidth=2, 
+    plt.plot(fpr_pooled, tpr_pooled, color='blue', linewidth=3, 
              label=f"Pooled ROC (AUC = {auc_pooled:.3f})")
-    plt.legend(loc='lower right')
-    plt.grid(True, alpha=0.3)
-    plt.show()
     
-    
+    # Mean and Std
     mean_auc = np.mean([e['auc'] for e in ergebnisse])
     std_auc = np.std([e['auc'] for e in ergebnisse])
     
+    plt.plot([0, 1], [0, 1], 'k--', alpha=0.3)
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
-    plt.title(f'ROC Curves - 5-Fold CV\nMean AUC = {mean_auc:.3f} ± {std_auc:.3f}\nPooled AUC = {auc_pooled:.3f}')
+    plt.title(f'ROC Curves - Cross-Validation Mean AUC = {mean_auc:.3f} ± {std_auc:.3f} | Pooled AUC = {auc_pooled:.3f}')
     plt.legend(loc='lower right')
     plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    # In function, we typically don't call show() if we want to save later or combine, 
+    # but since user wants immediate plots in notebook, we keep one show at the END of function.
     plt.show()
 
 
