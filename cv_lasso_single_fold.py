@@ -153,6 +153,7 @@ def plot_roc_curves(ergebnisse):
     plt.legend(loc='lower right')
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
+    plt.savefig(f"/labmed/workspace/lotta/finaletoolkit/outputs/plots/roc_curve_{bin_size}_fold.png")
     # In function, we typically don't call show() if we want to save later or combine, 
     # but since user wants immediate plots in notebook, we keep one show at the END of function.
     plt.show()

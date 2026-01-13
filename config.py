@@ -1,4 +1,4 @@
-BIN_SIZE = 100000  
+BIN_SIZE = 5000  
 # ANALYSIS_MODE can be "all_vs_healthy" or "specific_vs_healthy"
 ANALYSIS_MODE = "specific_vs_healthy" 
 SPECIFIC_GROUP = "Pancreatic Cancer" 
