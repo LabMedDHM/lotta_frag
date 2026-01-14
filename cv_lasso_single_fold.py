@@ -5,6 +5,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 from collections import defaultdict
+from config import BIN_SIZE as bin_size
 
 RANDOM_STATE = 42
 

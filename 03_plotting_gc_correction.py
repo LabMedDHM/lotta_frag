@@ -18,6 +18,9 @@ gc_corrected_path = f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/fi
 
 num_cols = ["mean", "median", "stdev", "min", "max", "wps_value"]
 
+base_plot_dir = f"/labmed/workspace/lotta/finaletoolkit/outputs/plots/{bin_size}"
+os.makedirs(base_plot_dir, exist_ok=True)
+
 
 def recode_groups(df):
     df["group_binary"] = df["group"].apply(lambda x: "healthy" if x.lower() == "healthy" else "cancer")
@@ -80,20 +83,20 @@ def run_analysis(df, title):
     plt.figure()
     sns.scatterplot(x="PC1", y="PC2", hue="group_binary", data=plot_df, palette="tab10")
     plt.title(f"PCA - {title} (Cancer vs Healthy)")
-    plt.savefig(f"/labmed/workspace/lotta/finaletoolkit/outputs/plots/PCA_{title}_binary.png", dpi=300)
+    plt.savefig(os.path.join(base_plot_dir, f"PCA_{title}_binary.png"), dpi=300)
     plt.show()
     
     # UMAP plot (binary grouping)
     plt.figure()
     sns.scatterplot(x="UMAP1", y="UMAP2", hue="group_binary", data=plot_df, palette="tab10")
     plt.title(f"UMAP - {title} (Cancer vs Healthy)")
-    plt.savefig(f"/labmed/workspace/lotta/finaletoolkit/outputs/plots/UMAP_{title}_binary.png", dpi=300)
+    plt.savefig(os.path.join(base_plot_dir, f"UMAP_{title}_binary.png"), dpi=300)
     plt.show()
 
     plt.figure()
     sns.scatterplot(x="UMAP1", y="UMAP2", hue="group", data=plot_df, palette="tab10")
     plt.title(f"UMAP - {title} (Cancer Types)")
-    plt.savefig(f"/labmed/workspace/lotta/finaletoolkit/outputs/plots/UMAP_{title}_types.png", dpi=300)
+    plt.savefig(os.path.join(base_plot_dir, f"UMAP_{title}_types.png"), dpi=300)
     plt.show()
 
 df_orig = pd.read_csv(original_path, sep="\t")
@@ -113,25 +116,27 @@ def calc_gc(chrom, start, end):
 
 def plot_gc_correction_check(sample_id=None):    
 
-    if sample_id is None:
-        sample_id = df["sample"].unique()[0]
-    
-    print(f"Plotting GC correction check for sample: {sample_id}")
-
     blacklist_filtered_feature_matrix_path = f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/final_feature_matrix_blacklist_filtered_{bin_size}.tsv"
     blacklist_filtered_feature_matrix = pd.read_csv(blacklist_filtered_feature_matrix_path, sep="\t")
 
     gc_corrected_feature_matrix_path = f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/final_feature_matrix_gc_corrected_{bin_size}.tsv"
     gc_corrected_feature_matrix = pd.read_csv(gc_corrected_feature_matrix_path, sep="\t")
 
-
-
+    if sample_id is None:
+        sample_id = gc_corrected_feature_matrix["sample"].unique()[0]
     
+    print(f"Plotting GC correction check for sample: {sample_id}")
+
     subset_blacklist_filtered = blacklist_filtered_feature_matrix[blacklist_filtered_feature_matrix["sample"] == sample_id].copy()
     subset_gc_corrected = gc_corrected_feature_matrix[gc_corrected_feature_matrix["sample"] == sample_id].copy()
             
     metrics = [ 'mean', 'median', 'stdev', 'min', 'max', 'wps_value']
     for metric in metrics: 
+        if metric not in subset_blacklist_filtered.columns or metric not in subset_gc_corrected.columns:
+            print(f"Skipping metric {metric} because it is not in the dataframes")
+            continue
+            
+        print(f"Plotting {metric}...")
         plt.figure(figsize=(10, 6))
         
         # Plot Original
@@ -157,7 +162,7 @@ def plot_gc_correction_check(sample_id=None):
         plt.ylabel(metric)
         plt.legend()
         
-        out_file = os.path.join("/labmed/workspace/lotta/finaletoolkit/outputs/plots", f"GC_Correction_{metric}_{sample_id}.png")
+        out_file = os.path.join(base_plot_dir, f"GC_Correction_{metric}_{sample_id}.png")
         plt.savefig(out_file, dpi=300)
         print(f"Saved plot to {out_file}")
         plt.show()
