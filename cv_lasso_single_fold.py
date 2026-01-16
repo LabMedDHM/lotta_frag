@@ -56,29 +56,34 @@ def cv_fold_run(X, y, train_index, test_index, pipeline):
     fpr, tpr, _ = roc_curve(y_test, y_prob)
     
     # Feature Stability Extraction
-    # Wir nehmen an, dass der letzte Schritt im Pipeline-Objekt das Modell ist 
-    # oder spezifisch 'lasso_cv' heißt. Hier versuchen wir es generisch oder fallback auf 'lasso_cv'.
-    
     selected_features = {}
     best_C = None
+    len_selected_features = 0
+    len_all_features = X.shape[1]
+    
+    # Try to find the model step
     if 'lasso_cv' in pipeline.named_steps:
         model = pipeline.named_steps['lasso_cv']
-        
-        # Best C Value extrahieren
         if hasattr(model, 'C_'):
              best_C = model.C_[0]
-             
-        if hasattr(model, 'coef_'):
-            coefs = model.coef_[0]
-            feature_names = X.columns
-            
-            for name, coef in zip(feature_names, coefs):
-                if coef != 0:
-                    selected_features[name] = coef
-            len_selected_features = len(selected_features)
-            len_all_features = len(feature_names) 
-            relative_feature_selection = len_selected_features / len_all_features
-            absolute_feature_selection = len_selected_features
+    elif 'model' in pipeline.named_steps:
+        model = pipeline.named_steps['model']
+        if hasattr(model, 'C'):
+            best_C = model.C
+    else:
+        model = None
+
+    if model and hasattr(model, 'coef_'):
+        coefs = model.coef_[0]
+        feature_names = X.columns
+        for name, coef in zip(feature_names, coefs):
+            if coef != 0:
+                selected_features[name] = coef
+        len_selected_features = len(selected_features)
+
+    relative_feature_selection = len_selected_features / len_all_features
+    absolute_feature_selection = len_selected_features
+
     return {
         'auc': auc_score,
         'best_C': best_C,
