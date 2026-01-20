@@ -12,3 +12,149 @@ Number Cancer: 115
 Number Healthy: 115
 Number Cancer: 115
 Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Number Cancer: 115
+Number Healthy: 115
+Index(['metrics', 'n_metrics', 'n_features', 'n_selected_features', 'roc_auc',
+       'best_C'],
+      dtype='object')
+dict_keys(['metrics', 'n_metrics', 'n_features', 'n_selected_features', 'roc_auc', 'best_C'])
+10 Best metric combinations:
+                          metrics  n_metrics  ...   roc_auc      best_C
+0                         (mean,)          1  ...  0.840909   82.864277
+21          (mean, median, stdev)          3  ...  0.829125   47.148664
+6                  (mean, median)          2  ...  0.819024   68.664885
+42     (mean, median, stdev, min)          4  ...  0.813131    0.167683
+24            (mean, median, max)          3  ...  0.808923  100.000000
+55   (stdev, wps_value, min, max)          4  ...  0.805556   47.148664
+29         (mean, wps_value, max)          3  ...  0.804714   39.069399
+54  (median, wps_value, min, max)          4  ...  0.798822   47.148664
+32           (median, stdev, min)          3  ...  0.797980    0.167683
+26             (mean, stdev, min)          3  ...  0.794613    0.095410
+
+[10 rows x 6 columns]
+Best metrics: ('mean',)
+Re-training model with best metrics: ('mean',)
+Traceback (most recent call last):
+  File "04_lasso_modeling.py", line 264, in <module>
+    mean_scores = np.mean(lasso_cv.scores_[1], axis=0)
+NameError: name 'lasso_cv' is not defined
