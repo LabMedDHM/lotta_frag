@@ -6,6 +6,13 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from collections import defaultdict
 from config import BIN_SIZE as bin_size
+from sklearn.metrics import (
+    accuracy_score, 
+    precision_score, 
+    recall_score, 
+    f1_score,
+    balanced_accuracy_score
+)
 
 RANDOM_STATE = 42
 
@@ -51,6 +58,7 @@ def cv_fold_run(X, y, train_index, test_index, pipeline):
     
     pipeline.fit(X_train, y_train)
     
+    y_pred = pipeline.predict(X_test)
     y_prob = pipeline.predict_proba(X_test)[:, 1]
     auc_score = roc_auc_score(y_test, y_prob)
     fpr, tpr, _ = roc_curve(y_test, y_prob)
@@ -93,8 +101,55 @@ def cv_fold_run(X, y, train_index, test_index, pipeline):
         'tpr': tpr,
         'selected_features': selected_features,
         'relative_feature_selection': relative_feature_selection,
-        'absolute_feature_selection': absolute_feature_selection
+        'absolute_feature_selection': absolute_feature_selection,
+        'accuracy': accuracy_score(y_test, y_pred),
+        'sensitivity': recall_score(y_test, y_pred),  
+        'specificity': recall_score(y_test, y_pred, pos_label=0),  
+        'precision': precision_score(y_test, y_pred),
     }
+
+def print_performance_table(ergebnisse):
+    data = []
+    for e in ergebnisse:
+        data.append({
+            'Fold': e['fold'],
+            'AUC': e['auc'],
+            'Accuracy': e.get('accuracy', np.nan),
+            'Sensitivity': e.get('sensitivity', np.nan),
+            'Specificity': e.get('specificity', np.nan),
+            'Precision': e.get('precision', np.nan),
+            'Best_C': e.get('best_C', np.nan),
+            'N_Features': e.get('absolute_feature_selection', np.nan)
+        })
+    
+    df = pd.DataFrame(data)
+    
+    mean_row = {
+        'Fold': 'Mean',
+        'AUC': df['AUC'].mean(),
+        'Accuracy': df['Accuracy'].mean(),
+        'Sensitivity': df['Sensitivity'].mean(),
+        'Specificity': df['Specificity'].mean(),
+        'Precision': df['Precision'].mean(),
+        'Best_C': df['Best_C'].mean(),
+        'N_Features': df['N_Features'].mean()
+    }
+    
+    std_row = {
+        'Fold': 'Std',
+        'AUC': df['AUC'].std(),
+        'Accuracy': df['Accuracy'].std(),
+        'Sensitivity': df['Sensitivity'].std(),
+        'Specificity': df['Specificity'].std(),
+        'Precision': df['Precision'].std(),
+        'Best_C': df['Best_C'].std(),
+        'N_Features': df['N_Features'].std()
+    }
+    
+    df = pd.concat([df, pd.DataFrame([mean_row, std_row])], ignore_index=True)
+    
+    return df
+
 
 
 def analyze_feature_stability(ergebnisse):
