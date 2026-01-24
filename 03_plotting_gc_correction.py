@@ -103,8 +103,8 @@ df_orig = pd.read_csv(original_path, sep="\t")
 df_gc = pd.read_csv(gc_corrected_path, sep="\t")
 df_blacklist_filtered = pd.read_csv(blacklist_filtered_path, sep="\t")
 
-#run_analysis(df_orig, "Original")
-#run_analysis(df_blacklist_filtered, "Blacklist-Filtered")
+run_analysis(df_orig, "Original")
+run_analysis(df_blacklist_filtered, "Blacklist-Filtered")
 run_analysis(df_gc, "GC-Corrected")
 
 
@@ -130,7 +130,7 @@ def plot_gc_correction_check(sample_id=None):
     subset_blacklist_filtered = blacklist_filtered_feature_matrix[blacklist_filtered_feature_matrix["sample"] == sample_id].copy()
     subset_gc_corrected = gc_corrected_feature_matrix[gc_corrected_feature_matrix["sample"] == sample_id].copy()
             
-    metrics = [ 'mean', 'median', 'stdev', 'min', 'max', 'wps_value']
+    metrics = ['mean', 'median', 'stdev', 'min', 'max', 'wps_value']
     for metric in metrics: 
         if metric not in subset_blacklist_filtered.columns or metric not in subset_gc_corrected.columns:
             print(f"Skipping metric {metric} because it is not in the dataframes")
