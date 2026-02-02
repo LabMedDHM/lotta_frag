@@ -1,0 +1,18 @@
+nohup: ignoring input
+all_vs_healthy
+Gastric cancer
+50000
+Traceback (most recent call last):
+  File "04_lasso_modeling.py", line 41, in <module>
+    df = pd.read_csv(matrix_path, sep="\t")
+  File "/home/lotta/miniconda3/envs/fragmentomics_analysis/lib/python3.8/site-packages/pandas/io/parsers/readers.py", line 912, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "/home/lotta/miniconda3/envs/fragmentomics_analysis/lib/python3.8/site-packages/pandas/io/parsers/readers.py", line 577, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "/home/lotta/miniconda3/envs/fragmentomics_analysis/lib/python3.8/site-packages/pandas/io/parsers/readers.py", line 1407, in __init__
+    self._engine = self._make_engine(f, self.engine)
+  File "/home/lotta/miniconda3/envs/fragmentomics_analysis/lib/python3.8/site-packages/pandas/io/parsers/readers.py", line 1661, in _make_engine
+    self.handles = get_handle(
+  File "/home/lotta/miniconda3/envs/fragmentomics_analysis/lib/python3.8/site-packages/pandas/io/common.py", line 859, in get_handle
+    handle = open(
+FileNotFoundError: [Errno 2] No such file or directory: '/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/final_feature_matrix_gc_corrected_50000.tsv'

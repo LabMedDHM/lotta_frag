@@ -103,7 +103,7 @@ df_orig = pd.read_csv(original_path, sep="\t")
 df_gc = pd.read_csv(gc_corrected_path, sep="\t")
 df_blacklist_filtered = pd.read_csv(blacklist_filtered_path, sep="\t")
 
-run_analysis(df_orig, "Original")
+#run_analysis(df_orig, "Original")
 run_analysis(df_blacklist_filtered, "Blacklist-Filtered")
 run_analysis(df_gc, "GC-Corrected")
 

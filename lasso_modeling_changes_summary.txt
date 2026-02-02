@@ -87,28 +87,40 @@ def run_lasso_for_metrics(df, clinical_df, metrics, pipeline, fast=True):
     ])
     stable_pipeline.fit(X_train_full, y_train_full)
 
-    # 5. Metriken extrahieren
-    pars_features = np.sum(stable_pipeline.named_steps['stable_model'].coef_[0] != 0)
-    pars_stability_ratio = (n_stable / pars_features) if pars_features > 0 else 0.0
+    # 5. Überlapp berechnen (Wie viele Modell-Features sind zugleich unter den Top stabilen?)
+    stable_feature_names = set(stability_df[stability_df['Frequency'] == 5]['Feature'])
+    
+    # Merkmale im sparsamen Modell (1SE)
+    pars_feature_names = set(X_train_full.columns[stable_pipeline.named_steps['stable_model'].coef_[0] != 0])
+    pars_overlap = pars_feature_names.intersection(stable_feature_names)
+    pars_stability_ratio = len(pars_overlap) / len(pars_feature_names) if len(pars_feature_names) > 0 else 0.0
 
-    simple_features = np.sum(lasso_cv.coef_[0] != 0)
-    simple_stability_ratio = (n_stable / simple_features) if simple_features > 0 else 0.0
+    # Merkmale im besten Modell
+    simple_feature_names = set(X_train_full.columns[lasso_cv.coef_[0] != 0])
+    simple_overlap = simple_feature_names.intersection(stable_feature_names)
+    simple_stability_ratio = len(simple_overlap) / len(simple_feature_names) if len(simple_feature_names) > 0 else 0.0
 
     y_prob_test = pipeline.predict_proba(X_test)[:, 1]
     test_auc = roc_auc_score(y_test, y_prob_test)
+
+    # 6. C-Variation berechnen (Parameter-Stabilität)
+    c_values = [res.get('best_C', np.nan) for res in cv_results]
+    c_values = [c for c in c_values if c > 0 and not np.isnan(c)]
+    c_variation = np.std(np.log10(c_values)) if len(c_values) > 0 else np.nan
 
     return {
         "metrics": metrics,
         "n_metrics": len(metrics),
         "n_features": X.shape[1],
-        "n_selected_features_best": int(simple_features),
-        "simple_features": int(simple_features),
+        "n_selected_features_best": len(simple_feature_names),
+        "simple_features": len(simple_feature_names),
         "simple_stability_ratio": simple_stability_ratio,
         "n_stable": n_stable,
-        "pars_features": int(pars_features),
+        "pars_features": len(pars_feature_names),
         "pars_stability_ratio": pars_stability_ratio,
         "cv_auc": np.mean([e['auc'] for e in cv_results]),
         "test_auc": test_auc,
+        "c_variation": c_variation,
         "best_C": lasso_cv.C_[0]
     }
 

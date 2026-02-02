@@ -25,7 +25,6 @@ def calc_gc(chrom, start, end):
 print("Calculating GC-content…")
 df["GC"] = df.apply(lambda row: calc_gc(str(row["chrom"]), int(row["start"]), int(row["end"])), axis=1)
 
-# Speichere die Matrix mit der neuen GC-Spalte direkt wieder (überschreibt die alte blacklist filtered matrix)
 df.to_csv(input_path, sep="\t", index=False)
 print(df.head())
 
@@ -46,7 +45,7 @@ for sample in df["sample"].unique():
 
         y = subset[col].values
         x = subset["GC"].values
-
+        #Locally Estimated Scatterplot Smoothing
         loess_fit = lowess(endog=y, exog=x, frac=0.75, return_sorted=False)
         corrected = y - loess_fit + np.median(y)
         gc_corrected_df.loc[subset.index, col] = corrected

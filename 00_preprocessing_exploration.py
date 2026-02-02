@@ -3,10 +3,11 @@
 
 # # Installing Packages
 
-# In[1]:
+# In[11]:
 
 
 import os
+import gc
 import subprocess
 import pandas as pd
 import seaborn as sns
@@ -35,7 +36,7 @@ from sklearn.pipeline import Pipeline
 
 # # Loading Samples (262 without Holdout-Dataset)
 
-# In[2]:
+# In[12]:
 
 
 cancer_samples = [
@@ -49,10 +50,11 @@ cancer_samples = [
     # nicht in clinical table
     "EE85727", "EE85730", "EE85731", "EE85732", "EE85733", "EE85734",
     "EE85737", "EE85739", "EE85741", "EE85743", "EE85746", "EE85749",
-    "EE85750", "EE85752", "EE85753", "EE86234", "EE86255", "EE86259",
-
-
-
+    "EE85750", "EE85752", "EE85753", 
+    
+    
+    
+    "EE86234", "EE86255", "EE86259",
     "EE87865", "EE87866", "EE87867", "EE87868", "EE87869", "EE87870",
     "EE87871", "EE87872", "EE87873", "EE87874", "EE87875", "EE87876",
     "EE87877", "EE87878", "EE87879", "EE87880", "EE87881", "EE87882",
@@ -106,13 +108,7 @@ control_samples = [
     "EE88028", "EE88029", "EE88030", "EE88031", "EE88032"
 ]
 
-BASE_DIR = "/labmed/workspace/lotta/finaletoolkit/output_workflow"
-
-# Daten:
-# Bedgraph Files
-# Frag.gz -> BigWig -> Bedgraph -> in diesem Notebook
-# Bedgraph = tabular format with chromosome, start, end, and WPS value columns
-# Frag.gz = tabular format with chromosome, start, end, and fragment count columns
+BASE_DIR = "/labmed/workspace/lotta/finaletoolkit/carsten/data_adjust_wps"
 
 def find_sample_folder(sample, base_dir=BASE_DIR):
     for root, dirs, files in os.walk(base_dir):
@@ -149,19 +145,9 @@ print(f"Configuration loaded for {len(all_samples)} samples:")
 print(all_samples)
 
 
-# # nach dem binning
-# 
-# 
-# 
-# PCA vorher + UMAP
-# 
-# GC Correction 
-# 
-# PCA nach Correction + UMAP
-
 # # Cancer Typ aus dem Pfad extrahieren
 
-# In[3]:
+# In[13]:
 
 
 def get_cancer_type(sample):
@@ -173,444 +159,93 @@ def get_cancer_type(sample):
 
 # # Creating and Loading of Bedgraph Files 
 
-# In[4]:
+# In[14]:
 
 
-bedgraph_dir = os.path.expanduser('/labmed/workspace/lotta/finaletoolkit/output_workflow')
+bedgraph_dir = os.path.expanduser('/labmed/workspace/lotta/finaletoolkit/carsten/data_adjust_wps')
+from config import BIN_SIZE as bin_size
 
-all_dfs = []
-exclude_chroms = ['chrX', 'chrY']
-if os.path.exists("/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/combined_df.parquet"):
-    print("Loading existing combined dataframe...")
-    combined_df = pd.read_parquet("/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/combined_df.parquet")
+binned_output_path = f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/binned_combined_df_{bin_size}.parquet"
+
+all_binned_dfs = []
+
+if os.path.exists(binned_output_path):
+    print(f"Loading existing binned dataframe from {binned_output_path}...")
+    binned_combined_df = pd.read_parquet(binned_output_path)
 else:
+    print(f"Creating new binned dataframe with bin size {bin_size}...")
+    
     def find_bedgraphs(sample_id):
         # pattern ist der gesuchte Dateipfad
         pattern = os.path.join(bedgraph_dir, "**", f"{sample_id}.adjust_wps.bedgraph")
+
         # matches sind alle gefundenen Dateien, die dem Muster entsprechen
         matches = glob.glob(pattern, recursive=True)
         # Gibt die erste gefundene Datei zurück 
         return matches[0] if matches else None
 
-    # cancer samples
-    for sample_id in cancer_samples:
+    for sample_id in all_samples:
         file_path = find_bedgraphs(sample_id)
         if file_path:
-            df = pd.read_csv(file_path, sep="\t", header=None, names=["chrom", "start", "end", "wps_value"])
-            df['sample'] = sample_id
-            group = get_cancer_type(sample_id)
-            df['group'] = group
-            all_dfs.append(df)
+            try:
+                df = pd.read_csv(file_path, sep="\t", header=None, names=["chrom", "start", "end", "wps_value"])
+                df['sample'] = sample_id
+                group = get_cancer_type(sample_id)
+                df['group'] = group
+                
+                # IMMEDIATE BINNING TO SAVE MEMORY
+                df['bin'] = df['start'] // bin_size
+                # Calculate mean per bin for this sample immediately
+                df_binned = df.groupby(['sample', 'group', 'chrom', 'bin'])['wps_value'].mean().reset_index()
+                
+                all_binned_dfs.append(df_binned)
+                print(f"Loaded and binned {sample_id}. Rows: {len(df)} -> {len(df_binned)}")
+                
+                del df
+                gc.collect()
+            except Exception as e:
+                print(f"Error processing {sample_id}: {e}")
         else:
             print(f"Bedgraph file for sample {sample_id} not found.")
 
-    # control samples
-    for sample_id in control_samples:
-        file_path = find_bedgraphs(sample_id)
-        if file_path:
-            df = pd.read_csv(file_path, sep="\t", header=None, names=["chrom", "start", "end", "wps_value"])
-            df['sample'] = sample_id
-            group = get_cancer_type(sample_id)
-            df['group'] = group
-            all_dfs.append(df)
-        else:
-            print(f"Bedgraph file for sample {sample_id} not found.")
-
-    combined_df = pd.concat(all_dfs, ignore_index=True)
-
-    print(f"Data of {len(all_dfs)} samples successfully loaded.")
-    combined_df.to_parquet("/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/combined_df.parquet", index=False)
-
-
-# # Global Analysis of Fragmentsize 
-# 
-# # Median Comparison between Cancer und Control 
-# 
-
-# In[5]:
-
-# Fragments (Fragment Lengths Feature)
-
-
-tsv_dir = os.path.expanduser('/labmed/workspace/lotta/finaletoolkit/output_workflow')
-results = []
-
-for sample in all_samples:
-    tsv_path = os.path.join(tsv_dir, '**', f"{sample}.frag_length_bins.tsv")
-    files = glob.glob(tsv_path, recursive=True)
-    if not files:
-        print(f"TSV file for sample {sample} not found.")
-        continue
-    df = pd.read_csv(files[0], sep="\t")
-    peak_index = df['count'].idxmax()
-    peak_row = df.loc[peak_index]
-    peak_length = (peak_row['min'] + peak_row['max']) / 2
-    group = 'cancer' if sample in cancer_samples else 'control'
-    results.append({'sample': sample, 'group': group, 'peak_length': peak_length, 'cancer_type': get_cancer_type(sample)})
-
-results_frag_length_df = pd.DataFrame(results)
-group_summary = results_frag_length_df.groupby('group')['peak_length'].mean().reset_index()
-print("Mean Peak Lengths:")
-print(group_summary)
-
-
-# # Visualisation of Results: Cancer vs. Control, Line Plot
-
-# In[6]:
-
-
-tsv_dir = os.path.expanduser('/labmed/workspace/lotta/finaletoolkit/output_workflow')
-
-groups = ['cancer', 'control']
-avg_freq = {}
-
-for group in groups:
-    group_samples = results_frag_length_df[results_frag_length_df['group'] == group]['sample'].tolist()
-
-    # Define dictionary before loop so we can accumulate counts per sample!
-    combined_counts = {}
-    
-    for sample in group_samples:
-        tsv_path = os.path.join(tsv_dir, '**', f"{sample}.frag_length_bins.tsv")
-        files = glob.glob(tsv_path, recursive=True)
-        if not files:
-            continue
-        df = pd.read_csv(files[0], sep="\t")
-
-        df['frag_mid'] = (df['min'] + df['max']) / 2
+    if all_binned_dfs:
+        binned_combined_df = pd.concat(all_binned_dfs, ignore_index=True)
+        print(f"Data successfully loaded and binned. Total rows: {len(binned_combined_df)}")
         
-        # Here we accumulate counts for each fragment length across samples --> we need the dicitonary defined outside the loop
-        for frag, count in zip(df['frag_mid'], df['count']):
-            combined_counts[frag] = combined_counts.get(frag, 0) + count
+        # Apply median imputation for (chrom, bin) groups
+               # Check for NaN values before imputation
+        nan_count = binned_combined_df['wps_value'].isna().sum()
+        print(f"Number of NaN values before imputation: {nan_count}")
 
-    # Average counts over number of samples in the group
-    for frag in combined_counts:
-        combined_counts[frag] /= len(group_samples)
-    avg_freq[group] = pd.Series(combined_counts).sort_index()
-
-
-plt.figure(figsize=(12,6))
-
-for group, color in zip(groups, ['red', 'blue']):
-    x = avg_freq[group].index.to_numpy(dtype=float)
-    y = avg_freq[group].astype(float).to_numpy()
-
-    plt.plot(x, y, label=f"{group} avg", color=color)
-
-    peak = results_frag_length_df[results_frag_length_df['group'] == group]['peak_length'].mean()
-    peak = float(peak)
-
-    plt.axvline(peak, linestyle='--', color=color, alpha=0.7, label=f"{group} peak")
-
-
-plt.xlabel("Fragment Length (bp)")
-plt.ylabel("Average Count")
-plt.title("Fragment Length Distribution: Cancer vs Control")
-plt.legend()
-plt.tight_layout()
-plt.show()
-
-
-# # Visualisation of Results: Cancer vs. Control, Boxplot
-
-# In[7]:
-
-
-plt.figure(figsize=(12, 6))
-sns.boxplot(
-    data=results_frag_length_df,
-    x='group',
-    y='peak_length',
-    palette={'cancer':'red', 'control':'blue'}
-)
-
-plt.xticks(rotation=45)
-plt.ylabel("Peak Fragment Length")
-plt.xlabel("Cancer Type")
-plt.title("Distribution of Peak Fragment Lengths by Cancer Type and Group")
-plt.legend(title='Group')
-plt.tight_layout()
-plt.show()
-
-
-# # Visualisation of Results: Individual Cancer Groups (Pancreatic, Colorectal..)
-# 
-
-# In[8]:
-
-
-plt.figure(figsize=(12, 6))
-
-sns.boxplot(
-    data=results_frag_length_df,
-    x='cancer_type',
-    y='peak_length',
-    palette="Set2"
-)
-
-plt.xticks(rotation=45)
-plt.ylabel("Peak Fragment Length")
-plt.xlabel("Cancer Type")
-plt.title("Peak Fragment Length per Cancer Type")
-plt.tight_layout()
-plt.show()
+        if nan_count > 0:
+            print("Applying median imputation...")
+            binned_combined_df['wps_value'] = binned_combined_df.groupby(['chrom', 'bin'])['wps_value'].transform(lambda x: x.fillna(x.median()))
+        else:
+            print("No NaN values found. Skipping imputation.")
+        binned_combined_df.to_parquet(binned_output_path)
+        print(f"Saved binned dataframe to {binned_output_path}")
+    else:
+        print("No data found!")
 
 
 # Paper Fragment lenght profiles:
 # - definiert kurze Fragmente als 100 - 150 und lange Fragmente als 151 - 250
+# 
+# 
 # -   ◦ Kurze ALT-Fragmente: ALT-Fragmente, die kürzer als 150 bp waren
+# 
+# 
 #     ◦ Lange ALT-Fragmente: ALT-Fragmente, die länger als 150 bp waren (nehme ich auch noch rein)
 # 
 
-# # Matrix of Statistical Values of Cancer vs. Control Groups
+# # Bin-Wide-Analysis, Binning the genome, Bin Size in Config File 
 # 
-
-# In[9]:
-
-
-if not os.path.exists("dataframes_for_ba/frag_length_metrics.parquet"):
-    results_frag_length_df = pd.read_parquet("/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/frag_length_metrics.parquet")
-else:
-    results = []
-    def get_cancer_type_fixed(sample):
-        folder = find_sample_folder(sample)  
-        if folder is None:
-            return "Unknown"
-        return os.path.basename(folder)  
-    
-    for sample in all_samples:
-        tsv_path = os.path.join(tsv_dir, '**', f"{sample}.frag_length_bins.tsv")
-        files = glob.glob(tsv_path, recursive=True)
-        if not files:
-            print(f"TSV file for sample {sample} not found.")
-            continue
-        df = pd.read_csv(files[0], sep="\t")
-        vals = (df['min'] + df['max']) / 2
-        counts = df['count']
-        total_counts = counts.sum()
-
-        mean_val = (vals * counts).sum() / total_counts
-
-        df['cum_count'] = counts.cumsum()
-        median_row = df[df['cum_count'] >= total_counts / 2].iloc[0]
-
-        #median fragment length
-        median_val = (median_row['min'] + median_row['max']) / 2
-
-        # standard deviation
-        std_val = ((counts * (vals - mean_val)**2).sum() / total_counts)**0.5
-        min_val = df['min'].min()
-        max_val = df['max'].max()
-
-        # Mononucleosomal peak area (147-201bp), short fragment ratio (50-150bp), mono/di ratio (147-201bp / 310-370bp)
-        mono_peak = df[(df['min'] >= 147) & (df['max'] <= 201)]['count'].sum()
-        short_frag = df[(df['min'] >= 50) & (df['max'] <= 150)]['count'].sum()
-        di_peak = df[(df['min'] >= 310) & (df['max'] <= 370)]['count'].sum()
-
-        # Muss ich noch mit Paper "beweisen", aber 143 ist cacnerous peak und 167 healthy peak in den meisten Papern
-        cancerous_peak_area = df[(df['min'] >= 130) & (df['max'] <= 150)]['count'].sum()
-        healthy_peak_area = df[(df['min'] >= 160) & (df['max'] <= 170)]['count'].sum()
-        ultra_short_peaks = df[(df['min'] >= 90) & (df['max'] <= 120)]['count'].sum()
-        cancerous_peaks_ratio = cancerous_peak_area / total_counts
-        healthy_peaks_ratio = healthy_peak_area / total_counts
-        ultra_short_peaks_ratio = ultra_short_peaks / total_counts
-        cancer_healthy_ratio = cancerous_peak_area / healthy_peak_area if healthy_peak_area > 0 else None
-
-        # ALT fraction 
-        short_alt_area =  df[df['max'] <= 150]['count'].sum()
-        long_alt_area =  df[df['min'] > 150]['count'].sum()
-        alt_ratio = short_alt_area / (short_alt_area + long_alt_area) 
-
-
-        short_frag_ratio = short_frag / total_counts
-        mono_di_ratio = mono_peak / di_peak if di_peak > 0 else None
-
-        group = "cancer" if sample in cancer_samples else "control"
-
-        results.append({
-            "sample": sample,
-            "group": group,
-            "cancer_type": get_cancer_type_fixed(sample),
-            "mean_fragment": mean_val,
-            "median_fragment": median_val,
-            "std_fragment": std_val,
-            "min_fragment": min_val,
-            "max_fragment": max_val,
-            "mono_peak_area": mono_peak,
-            "short_fragment_ratio": short_frag_ratio,
-            "mono_di_ratio": mono_di_ratio,
-            "cancerous_peaks_ratio": cancerous_peaks_ratio,
-            "healthy_peaks_ratio": healthy_peaks_ratio,
-            "cancer_healthy_ratio": cancer_healthy_ratio,
-            "ultra_short_peaks_ratio": ultra_short_peaks_ratio,
-            "alt_ratio": alt_ratio
-        })
-
-    results_frag_length_df = pd.DataFrame(results)
-    results_frag_length_df.to_parquet("dataframes_for_ba/frag_length_metrics.parquet", index=False)
-    print(f"Extracted metrics for {len(results_frag_length_df)} samples")
-
-
-# In[10]:
-
-
-# Mean peak lengths of cancerous and healthy groups
-
-results_frag_length_df.groupby('group')[['cancerous_peaks_ratio', 'healthy_peaks_ratio']].mean()
-
-
-# In[11]:
-
-
-print(
-    results_frag_length_df[['sample', 'group', 'cancerous_peaks_ratio', 'healthy_peaks_ratio']]
-    .sort_values(by=['group', 'cancerous_peaks_ratio'])
-    .to_string(index=False)
-)
-
-
-# # Plotting Boxplots for Important Fragment Length Metrics
-# 
-
-# In[12]:
-
-
-palette_colors = {'cancer': 'red', 'control': 'blue'}
-fig, axes = plt.subplots(1, 5, figsize=(18, 6))
-
-sns.boxplot(
-    data=results_frag_length_df,
-    x="group",
-    y="cancer_healthy_ratio",
-    ax=axes[0],
-    hue="group",
-    palette=palette_colors,
-    dodge=False,
-    legend=False,
-)
-axes[0].set_title('Cancer/Healthy Ratio')
-axes[0].set_ylabel('Cancer / Healthy Ratio')
-
-sns.boxplot(
-    data=results_frag_length_df,
-    x="group",
-    y="cancerous_peaks_ratio",
-    ax=axes[1],
-    hue="group",
-    palette=palette_colors,
-    dodge=False,
-    legend=False,
-)
-axes[1].set_title('Cancerous Peaks Ratio')
-axes[1].set_ylabel('') 
-
-sns.boxplot(
-    data=results_frag_length_df,
-    x="group",
-    y="healthy_peaks_ratio",
-    ax=axes[2],
-    hue="group",
-    palette=palette_colors,
-    dodge=False,
-    legend=False,
-)
-axes[2].set_title('Healthy Peaks Ratio')
-axes[2].set_ylabel('') 
-
-sns.boxplot(
-    data=results_frag_length_df,
-    x="group",
-    y="ultra_short_peaks_ratio",
-    ax=axes[3],
-    hue="group",
-    palette=palette_colors,
-    dodge=False,
-    legend=False,
-)
-axes[3].set_title('Ultra Short Peaks Ratio')
-axes[3].set_ylabel('')
-
-sns.boxplot(
-    data=results_frag_length_df,
-    x="group",
-    y="alt_ratio",
-    ax=axes[4],
-    hue="group",
-    palette=palette_colors,
-    dodge=False,
-    legend=False,
-)
-axes[4].set_title('Alt Ratio')
-axes[4].set_ylabel('')
-
-plt.tight_layout() 
-
-plt.show()
-
-
-# In[13]:
-
-
-#(results_frag_length_df['cancerous_peaks'].describe)
-print(results_frag_length_df.head())
-
-
-# In[14]:
-
-
-frag_metrics_df_indexed = results_frag_length_df.set_index('sample')
-
 
 # In[15]:
 
 
-frag_metrics_df_indexed.drop(columns=['group'], inplace=True)
-
-
-# In[16]:
-
-
-print(frag_metrics_df_indexed.head())
-
-
-# 
-# # Enthropy
-# Berechne zusätzlich noch die Entropie: 
-# 
-# 
-# Hohe Entropie: Verteilung ist breiter, was spezifische für Kontollproben ist da sie sowohl kurze als auch lange Fragmente haben
-# 
-# 
-# Niedrige Entropie: Verteilung ist schmaler, was auf Krebsproben hinweist, da sehr viele kurze Fragmente und wenig lange
-
-# In[17]:
-
-
-'''entropy_results = {}
-
-for sample in all_samples:
-    tsv_dir = os.path.expanduser('/labmed/workspace/lotta/finaletoolkit/output_workflow')
-    tsv_path = os.path.join(tsv_dir, '**', f"{sample}.frag_length_bins.tsv")
-    files = glob.glob(tsv_path, recursive=True)
-    if not files:
-        print(f"TSV file for sample {sample} not found.")
-        continue
-    df = pd.read_csv(files[0], sep="\t")
-    p = df['count'] / total_counts
-    entropy = -np.sum(p * np.log2(p + 1e-10))
-    entropy_results[sample] = entropy
-entropy_df = pd.DataFrame.from_dict(entropy_results, orient='index', columns=['entropy'])
-master_feature_matrix["shannon_entropy"] = \ master_feature_matrix.index.map(entropy_results)'''
-
-
-# # Bin-Wide-Analysis, Binning the genome, bin size 5Mb
-# 
-
-# In[18]:
-
-
 from config import BIN_SIZE as bin_size
-print(bin_size)
+
 if os.path.exists(f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/binned_combined_df_{bin_size}.parquet"):
     print("Loading existing binned combined dataframe...")
     binned_combined_df = pd.read_parquet(f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/binned_combined_df_{bin_size}.parquet")
@@ -622,10 +257,11 @@ else:
     binned_combined_df['wps_value'] = binned_combined_df.groupby(['chrom', 'bin'])['wps_value'].transform(lambda x: x.fillna(x.median()))
     binned_combined_df.to_parquet(f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/binned_combined_df_{bin_size}.parquet")
 
+
 # # Feature Matrix for LR rows=sample and columns=bins+groups 
 # 
 
-# In[19]:
+# In[16]:
 
 
 if os.path.exists(f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/final_feature_matrix_{bin_size}.parquet"):
@@ -644,7 +280,7 @@ else:
 # # Fragment Interval Analysis: Loading Files
 # 
 
-# In[20]:
+# In[17]:
 
 
 frag_interval_dir = os.path.expanduser('/labmed/workspace/lotta/finaletoolkit/output_workflow/frag_intervals')
@@ -677,7 +313,7 @@ for sample in all_samples:
 frag_intervals_df = pd.concat(frag_intervals_results, ignore_index=True)
 
 
-# In[21]:
+# In[18]:
 
 
 print(frag_intervals_df.head())
@@ -686,7 +322,7 @@ print(frag_intervals_df.head())
 # # Binning Fragment Interval Files
 # 
 
-# In[22]:
+# In[19]:
 
 
 binned_df = (
@@ -705,13 +341,13 @@ print(binned_df.head())
 print(binned_df.shape)
 
 
-# In[23]:
+# In[20]:
 
 
 print(binned_combined_df.head())
 
 
-# In[24]:
+# In[21]:
 
 
 merged_df = pd.merge(
@@ -722,5 +358,5 @@ merged_df = pd.merge(
 )
 
 print(merged_df.head())
-merged_df.to_csv(f"/labmed/workspace/lotta/finaletoolkit/dataframes_notebook/final_feature_matrix_{bin_size}.tsv", sep="\t", index=False)
+merged_df.to_csv(f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/final_feature_matrix_{bin_size}.tsv", sep="\t", index=False)
 

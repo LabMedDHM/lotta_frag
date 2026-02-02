@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[54]:
+# In[1]:
 
 
 import pandas as pd
@@ -26,7 +26,7 @@ from config import STRATIFY_BY as stratify
 
 # # 0. Check Config
 
-# In[ ]:
+# In[2]:
 
 
 print(analysis_mode)
@@ -36,7 +36,7 @@ print(bin_size)
 
 # # 1. Loading of Dataframes
 
-# In[56]:
+# In[3]:
 
 
 matrix_path = f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/final_feature_matrix_gc_corrected_{bin_size}.tsv"
@@ -45,6 +45,7 @@ df = pd.read_csv(matrix_path, sep="\t")
 clinical_path = "/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/filtered_clinical_characteristics.csv"
 clinical_df_raw = pd.read_csv(clinical_path, sep=";")
 
+age_at_diagnosis = clinical_df_raw["Age at Diagnosis"]
 if analysis_mode == "specific_vs_healthy":
     clinical_df = clinical_df_raw[
             (clinical_df_raw["Patient Type"] == specific_group) |
@@ -78,7 +79,7 @@ print(f"Number of Bins per Sample: {len(df) / df['sample'].nunique()}")
 
 # # 2. Pipeline for LASSO
 
-# In[57]:
+# In[4]:
 
 
 C_values = np.logspace(-4, 4, 50)
@@ -98,7 +99,7 @@ pipeline = Pipeline([
 
 # # 3. General Function for LASSO perfomance
 
-# In[58]:
+# In[5]:
 
 
 def run_lasso_for_metrics(df, clinical_df, metrics, pipeline, fast=True):
@@ -108,11 +109,10 @@ def run_lasso_for_metrics(df, clinical_df, metrics, pipeline, fast=True):
     from sklearn.base import clone
     import numpy as np
 
-    # Pivot
     pivot_df = df.pivot(index="sample", columns="bin_id", values=list(metrics))
     pivot_df.columns = [f"{metric}_{bin_id}" for metric, bin_id in pivot_df.columns]
 
-    # Labels
+    # lables and stratify
     y = []
     strata = []
     for sample_id in pivot_df.index:
@@ -120,79 +120,127 @@ def run_lasso_for_metrics(df, clinical_df, metrics, pipeline, fast=True):
         is_healthy = row["Patient Type"].lower() == "healthy"
         target_val = 0 if is_healthy else 1
         y.append(target_val)
-        strata.append(row["Gender"] if stratify == "Gender" else target_val)
+        if stratify == "Gender":
+            strata.append(row["Gender"])
+        else:
+            strata.append(target_val)
 
     y = np.array(y)
     X = pivot_df
 
-    X_train_full, X_test, y_train_full, y_test = train_test_split(
-        X, y, test_size=0.2, stratify=strata, random_state=42
+    # Split in Training and Test (80/20)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X,
+        y, 
+        test_size=0.2, 
+        stratify=strata , 
+        random_state=42
     )
 
     if fast:
-        # SUPER FAST SCREENING: Fast CV settings
+        # STAGE 1: fast screening
+        # less c values 
         fast_lasso = LogisticRegressionCV(
-            Cs=15, cv=2, penalty='l1', solver='liblinear', scoring='roc_auc', max_iter=2000, random_state=42
+            Cs=15, 
+            cv=2, 
+            penalty='l1', 
+            solver='liblinear', 
+            scoring='roc_auc', 
+            max_iter=2000, 
+            random_state=42
         )
         fast_pipeline = clone(pipeline)
         fast_pipeline.steps[-1] = ('lasso_cv', fast_lasso)
         
-        fast_pipeline.fit(X_train_full, y_train_full)
+        fast_pipeline.fit(X_train, y_train)
         y_prob = fast_pipeline.predict_proba(X_test)[:, 1]
         return {"metrics": metrics, "roc_auc": roc_auc_score(y_test, y_prob)}
     
-    # --- FULL BENCHMARKING (TOP 10) ---
-    from cv_lasso_single_fold import cross_validation, analyze_feature_stability
-    from sklearn.linear_model import LogisticRegression
-    from sklearn.pipeline import Pipeline
-    from sklearn.preprocessing import StandardScaler
+    # STAGE 2: full benchmarking for top 10 combinations
 
     print(f"  > Full benchmarking for {metrics}...", flush=True)
-    cv_results = cross_validation(X_train_full, y_train_full, pipeline, n_folds=5)
     
+    # 1. 5-Fold Cross Validation for stability analysis
+    cv_results = cross_validation(X_train, y_train, pipeline, n_folds=5)
+    
+    # 2. count stable features (features in all 5 folds selected)
     stability_df = analyze_feature_stability(cv_results)
     n_stable = len(stability_df[stability_df['Frequency'] == 5]) if not stability_df.empty else 0
 
-    pipeline.fit(X_train_full, y_train_full)
+    # 3. determine the 1SE (Parsimonious) C-value
+    pipeline.fit(X_train, y_train)
     lasso_cv = pipeline.named_steps['lasso_cv']
-    
     mean_scores = np.mean(lasso_cv.scores_[1], axis=0)
-    sem_scores = np.std(lasso_cv.scores_[1], axis=0) / np.sqrt(5)
+    std_scores = np.std(lasso_cv.scores_[1], axis=0)
+    sem_scores = std_scores / np.sqrt(5)
+    
     best_idx = np.argmax(mean_scores)
-    idx_1se = np.where(mean_scores >= (mean_scores[best_idx] - sem_scores[best_idx]))[0][0]
+    best_score = mean_scores[best_idx]
+    threshold = best_score - sem_scores[best_idx]
+    idx_1se = np.where(mean_scores >= threshold)[0][0]
     c_1se = float(lasso_cv.Cs_[idx_1se])
 
+    # 4. fit simple model (1SE) to calculate the ratio
     stable_pipeline = Pipeline([
         ('scaler', StandardScaler()),
-        ('model', LogisticRegression(penalty='l1', C=c_1se, solver='liblinear', max_iter=10000, random_state=42))
+        ('stable_model', LogisticRegression(
+            penalty='l1', 
+            solver='liblinear', 
+            C=c_1se, 
+            max_iter=10000, 
+            random_state=42
+        ))
     ])
-    stable_pipeline.fit(X_train_full, y_train_full)
+    stable_pipeline.fit(X_train, y_train)
+
+    # 5. extract metrics
+    stable_feature_names = set(stability_df[stability_df['Frequency'] == 5]['Feature'])
+
+    pars_feature_names = set(X_train.columns[stable_pipeline.named_steps['stable_model'].coef_[0] != 0])
+    pars_overlap = pars_feature_names.intersection(stable_feature_names)
+    pars_stability_ratio = len(pars_overlap) / len(pars_feature_names) if len(pars_feature_names) > 0 else 0.0
+
+    simple_feature_names = set(X_train.columns[lasso_cv.coef_[0] != 0])
+    simple_overlap = simple_feature_names.intersection(stable_feature_names)
+    simple_stability_ratio = len(simple_overlap) / len(simple_feature_names) if len(simple_feature_names) > 0 else 0.0
     
-    n_simple = np.sum(stable_pipeline.named_steps['model'].coef_[0] != 0)
-    y_prob_best = pipeline.predict_proba(X_test)[:, 1]
+    c_values = [res.get('best_C', np.nan) for res in cv_results]
+    c_values = [c for c in c_values if c > 0 and not np.isnan(c)]
+    c_variation = np.std(np.log10(c_values)) if len(c_values) > 0 else np.nan
+    #Ein Unterschied von 1.0 entspricht einer Zehnerpotenz (z.B. der Sprung von C=0.1 auf C=1.0). 
+    y_prob_test = pipeline.predict_proba(X_test)[:, 1]
+    test_auc = roc_auc_score(y_test, y_prob_test)
 
     return {
         "metrics": metrics,
-        "n_stable": n_stable,
-        "n_features_simple": int(n_simple),
-        "stability_ratio": (n_stable / n_simple) if n_simple > 0 else 0.0,
+        "n_features": X.shape[1],
+        "n_stable_features": len(stable_feature_names),
+        "n_simple_features": len(simple_feature_names),
+        "simple_stability_ratio": simple_stability_ratio,
+        "n_pars_features": len(pars_feature_names),
+        "pars_stability_ratio": pars_stability_ratio,
         "cv_auc": np.mean([e['auc'] for e in cv_results]),
-        "test_auc": roc_auc_score(y_test, y_prob_best),
-        "best_C": lasso_cv.C_[0]
+        "test_auc": test_auc,
+        "best_C": lasso_cv.C_[0],
+        'c_variation': c_variation
     }
 
 
 # # 4. Feature Selektion for LASSO (combinations of metrics)
 
-# In[ ]:
+# In[6]:
 
 
+### 2. Aktualisierter Loop: Zweistufen-Suche
+# Erst schnelles Screening (Stage 1), dann Detail-Analyse der Top 10 (Stage 2).
+
+from cv_lasso_single_fold import cross_validation, analyze_feature_stability, cv_fold_run, print_performance_table, plot_roc_curves, plot_auc_boxplot
 df["bin_id"] = df["chrom"] + "_" + df["start"].astype(str)
 metrics_to_test = ["mean", "median", "stdev", "wps_value", "min", "max"]
 
-print("=== STAGE 1: Super Fast Screening (all combinations) ===", flush=True)
+print("STAGE 1: Fast Screening (all combinations)", flush=True)
 results_fast = []
-import itertools
+
 for r in range(1, len(metrics_to_test) + 1):
     for combination in itertools.combinations(metrics_to_test, r):
         print(f"Screening combo {combination}...", flush=True)
@@ -200,29 +248,57 @@ for r in range(1, len(metrics_to_test) + 1):
         results_fast.append(res)
         print(f"  > Fast AUC: {res['roc_auc']:.3f}", flush=True)
 
-# Pick top 10
+# Auswahl der Top 7 nach AUC aus dem Screening
 top_10 = pd.DataFrame(results_fast).sort_values("roc_auc", ascending=False).head(10)
-print(f"\nTop 10 candidates selected. Starting Stage 2 Deep Analysis...", flush=True)
+print(f"\nTop 10 candidates found. Starting Stage 2 Deep Analysis...", flush=True)
 
-print("\n=== STAGE 2: Full Benchmarking Top 10 ===", flush=True)
+print("\nSTAGE 2: Full Benchmarking Top 10", flush=True)
 metrics_results = []
 for idx, row in top_10.iterrows():
     combo = row['metrics']
     res = run_lasso_for_metrics(df, clinical_df, combo, pipeline, fast=False)
     metrics_results.append(res)
 
+# Ergebnisse speichern und anzeigen
 metrics_results = pd.DataFrame(metrics_results).sort_values("cv_auc", ascending=False)
-metrics_results.to_csv(f"lasso_metrics_results_{bin_size}.csv", index=False)
+metrics_results.to_csv(f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/lasso_metrics_results_{specific_group}_{bin_size}.csv", index=False)
 
 print("\n--- FINAL RESULTS (Top 10) ---", flush=True)
 display(metrics_results)
-best_metrics = metrics_results.iloc[0]['metrics']
-print(f"\n>>> RECOMMENDED BEST METRICS: {best_metrics}", flush=True)
+
+
+# In[7]:
+
+
+metrics_results.to_csv(f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/lasso_metrics_results_PanCancer_{bin_size}.csv", index=False)
+
+
+# In[8]:
+
+
+filtered = metrics_results[
+   (metrics_results['pars_stability_ratio'] >= 0.1)&
+    (metrics_results['simple_stability_ratio'] >= 0.1)&
+    (metrics_results['cv_auc'] >= 0.7)&
+    (metrics_results['test_auc'] >= 0.7)&
+    (metrics_results['c_variation'] <= 1)
+]
+print(filtered)
+
+# nehme die kombi dessen metric anzahl die wenigstens metriken hat, also bevorzuge eine kombi mit 1 metric vor einer kombi mit 2 metriken etc.
+filtered = filtered.copy()
+filtered["n_metrics"] = filtered["metrics"].apply(len)
+filtered = filtered.sort_values(
+    by=["n_metrics", "cv_auc"],  # optional: AUC als Tie-Breaker
+    ascending=[True, False]
+)
+best_metrics = filtered.iloc[0]["metrics"]
+print("Final Metric Combination:", best_metrics)
 
 
 # # 5. Influence of metric selection on model performance
 
-# In[ ]:
+# In[9]:
 
 
 '''metrics_results.groupby("n_metrics")["roc_auc"].mean().plot(
@@ -245,11 +321,16 @@ print(f"\n>>> RECOMMENDED BEST METRICS: {best_metrics}", flush=True)
 # 
 # The thresholds are different probability cutoffs that separate the two classes in binary classification. It uses probability to tell us how well a model separates the classes.
 
-# In[ ]:
+# In[10]:
 
 
+from cv_lasso_single_fold import cross_validation, analyze_feature_stability
+
+#best_metrics = ['mean']
 print(f"Re-training model with best metrics: {best_metrics}")
 
+df["bin_id"] = df["chrom"] + "_" + df["start"].astype(str)
+print(df.head())
 # Pivot
 pivot_df = df.pivot(
     index="sample",
@@ -289,6 +370,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     random_state=42,
 )
 
+
 # Fit
 pipeline.fit(X_train, y_train)
 
@@ -298,15 +380,12 @@ lasso_cv = pipeline.named_steps["lasso_cv"]
 # --- 1se Rule Calculation ---
 # scores_[1] is of shape (n_folds, n_Cs)
 mean_scores = np.mean(lasso_cv.scores_[1], axis=0)
-print(f"lasso_cv.scores_[1]: {lasso_cv.scores_[1]}")
-print(f"mean lasso scores: {mean_scores}")
 std_scores = np.std(lasso_cv.scores_[1], axis=0)
 n_folds = 5
 sem_scores = std_scores / np.sqrt(n_folds)
 cs = lasso_cv.Cs_
 
 best_idx = np.argmax(mean_scores)
-print(f"best_idx: {best_idx}")
 best_c = float(cs[best_idx])
 best_score = mean_scores[best_idx]
 best_sem = sem_scores[best_idx]
@@ -336,8 +415,6 @@ stable_pipeline = Pipeline([
     ('model', stable_lasso)
 ])
 
-
-
 stable_pipeline.fit(X_train, y_train)
 # 1. Calculate probabilities for both models (Test Set)
 y_prob_best = pipeline.predict_proba(X_test)[:, 1]
@@ -349,6 +426,24 @@ fpr_1se, tpr_1se, _ = roc_curve(y_test, y_prob_1se)
 
 auc_best = roc_auc_score(y_test, y_prob_best)
 auc_1se = roc_auc_score(y_test, y_prob_1se)
+
+# 1. 5-Fold Cross Validation for stability analysis
+cv_results = cross_validation(X_train, y_train, pipeline, n_folds=5)
+    
+# 2. count stable features (features in all 5 folds selected)
+stability_df = analyze_feature_stability(cv_results)
+stable_feature_names = set(stability_df[stability_df['Frequency'] == 5]['Feature'])
+
+pars_feature_names = set(X_train.columns[stable_pipeline.named_steps['model'].coef_[0] != 0])
+pars_overlap = pars_feature_names.intersection(stable_feature_names)
+pars_stability_ratio = len(pars_overlap) / len(pars_feature_names) if len(pars_feature_names) > 0 else 0.0
+print(f"pars_stability_ratio: {pars_stability_ratio}")
+
+simple_feature_names = set(X_train.columns[lasso_cv.coef_[0] != 0])
+simple_overlap = simple_feature_names.intersection(stable_feature_names)
+simple_stability_ratio = len(simple_overlap) / len(simple_feature_names) if len(simple_feature_names) > 0 else 0.0
+print(f"simple_stability_ratio: {simple_stability_ratio}")
+
 
 # 3. Create Common Plot
 plt.figure(figsize=(8, 6))
@@ -389,7 +484,7 @@ plt.show()
 
 # ## 5.2 Training vs. Test with best model 
 
-# In[ ]:
+# In[11]:
 
 
 y_prob_train = pipeline.predict_proba(X_train)[:, 1]
@@ -415,7 +510,7 @@ plt.show()
 
 # ## 5.3 Training vs. Test with 1SE Model
 
-# In[ ]:
+# In[12]:
 
 
 y_prob_train = stable_pipeline.predict_proba(X_train)[:, 1]
@@ -445,7 +540,7 @@ plt.show()
 
 # ## 6.1 Pipeline with best model
 
-# In[ ]:
+# In[13]:
 
 
 from cv_lasso_single_fold import cross_validation, analyze_feature_stability, plot_roc_curves, plot_auc_boxplot
@@ -468,7 +563,7 @@ important_features.head(20).plot.barh(x="Feature", y="Coefficient", title="Top F
 # ## 6.2 Stable Pipeline with 1SE model 
 # 
 
-# In[ ]:
+# In[14]:
 
 
 stable_lasso_model = stable_pipeline.named_steps['model']
@@ -491,11 +586,13 @@ print(f"Best C Model: {len(important_features)} features selected")
 print(f"1SE Model:    {len(stable_important_features)} features selected")
 print(f"Difference:   {len(important_features) - len(stable_important_features)} fewer features in 1SE model")
 
+print(f"stable_important_features: {stable_important_features}")
+
 
 # # 7. Feature Stability Analysis (Cross-Validation) 
 # 
 
-# In[ ]:
+# In[15]:
 
 
 import importlib
@@ -519,7 +616,7 @@ plot_auc_boxplot(cv_results)
 
 # ## 7.2 Table with Statistical Values
 
-# In[ ]:
+# In[16]:
 
 
 from cv_lasso_single_fold import print_performance_table
@@ -537,7 +634,7 @@ Precision: Von allen als "Krebs" vorhergesagten, wie viele waren wirklich Krebs
 # ## 7.3 Feature Stability Analyse
 # 
 
-# In[ ]:
+# In[17]:
 
 
 stability_df = analyze_feature_stability(cv_results)
@@ -558,10 +655,17 @@ plt.show()
 print(f"Features in ALL 5 folds: {len(stable_in_all)}")
 
 
+# In[18]:
+
+
+print(simple_feature_names)
+print(pars_overlap)
+
+
 # ## 7.4 Feature Overlap Heatmap 
 # 
 
-# In[ ]:
+# In[19]:
 
 
 import matplotlib.pyplot as plt
@@ -587,7 +691,7 @@ plt.title('Feature Selection Consistency')
 
 # ## 7.5 Saving stable features in file for comparison
 
-# In[ ]:
+# In[20]:
 
 
 import pandas as pd
@@ -611,7 +715,7 @@ feature_sets = {}
 
 for metric, file in metrics.items():
     df = pd.read_csv(base_path + file)
-    cleaned = {get_position(f) for f in df['Feature']}
+    cleaned = {extract_genomic_position(f) for f in df['Feature']}
     feature_sets[metric] = cleaned
 
 
@@ -625,7 +729,7 @@ for (m1, f1), (m2, f2) in combinations(feature_sets.items(), 2):
 
 # # 8. Visualize the ROC Calculation (Label, Probability)
 
-# In[ ]:
+# In[21]:
 
 
 # 1. Get the probabilities for the test set 
@@ -646,7 +750,7 @@ print("Detailed predicitions for test set:")
 print(test_results.head(5))
 
 
-# In[ ]:
+# In[22]:
 
 
 # Falsch-Negative (Krebs als gesund vorhergesagt)
