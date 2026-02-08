@@ -93,7 +93,7 @@ def get_stable_pipeline(c_1se):
 
 def get_simple_pipeline():
     C_values = np.logspace(-4, 4, 50)
-    pipeline = Pipeline([
+    simple_pipeline = Pipeline([
     ('scaler', StandardScaler()),
     ('lasso_cv', LogisticRegressionCV(
         Cs=C_values,
@@ -105,7 +105,7 @@ def get_simple_pipeline():
         random_state=42
     ))
 ])
-    return pipeline
+    return simple_pipeline
 
 def get_fast_pipeline():
     fast_pipeline = Pipeline([
@@ -137,22 +137,22 @@ def calculate_cs(simple_pipeline):
     idx_1se = np.where(mean_scores >= threshold)[0][0]
     c_1se = float(lasso_cv.Cs_[idx_1se])
 
-    return best_c, c_1se    
+    return best_c, c_1se, best_score, threshold 
 
 
-def calculate_stability(X_train, y_train, pipeline, stable_pipeline):
-    cv_results = cross_validation(X_train, y_train, pipeline, n_folds=5)
+def calculate_stability(X_train, y_train, simple_pipeline, stable_pipeline):
+    cv_results = cross_validation(X_train, y_train, simple_pipeline, n_folds=5)
     stability_df = analyze_feature_stability(cv_results)
 
     stable_feature_names = set(stability_df[stability_df['Frequency'] == 5]['Feature'])
     n_stable = len(stable_feature_names)
 
-    pars_feature_names = set(X_train.columns[stable_pipeline.named_steps['model'].coef_[0] != 0])
+    pars_feature_names = set(X_train.columns[stable_pipeline.named_steps['stable_model'].coef_[0] != 0])
     pars_overlap = pars_feature_names.intersection(stable_feature_names)
     pars_stability_ratio = len(pars_overlap) / len(pars_feature_names) if len(pars_feature_names) > 0 else 0.0
     n_pars = len(pars_feature_names)
 
-    simple_feature_names = set(X_train.columns[lasso_cv.coef_[0] != 0])
+    simple_feature_names = set(X_train.columns[simple_pipeline.named_steps['lasso_cv'].coef_[0] != 0])
     simple_overlap = simple_feature_names.intersection(stable_feature_names)
     simple_stability_ratio = len(simple_overlap) / len(simple_feature_names) if len(simple_feature_names) > 0 else 0.0
     n_simple = len(simple_feature_names)
