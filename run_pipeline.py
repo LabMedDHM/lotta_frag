@@ -8,11 +8,9 @@ from pathlib import Path
 # CONFIGURATION
 # =========================
 
-BIN_SIZES = [100000]
+BIN_SIZES = [5000, 10000, 50000, 100000]
 SCRIPTS = [
-    "00_preprocessing_exploration.py",
-    "01_blacklist.py",
-    "02_gc_correction.py",
+    "04_lasso_modeling.py"
 
 ]
 

@@ -1,603 +1,244 @@
 nohup: ignoring input
-Configuration loaded for 262 samples:
-['EE87789', 'EE87790', 'EE87791', 'EE87792', 'EE87793', 'EE87794', 'EE87795', 'EE87796', 'EE87797', 'EE87798', 'EE87799', 'EE87800', 'EE87801', 'EE87802', 'EE87803', 'EE87804', 'EE87805', 'EE87806', 'EE87807', 'EE87809', 'EE87810', 'EE88325', 'EE85727', 'EE85730', 'EE85731', 'EE85732', 'EE85733', 'EE85734', 'EE85737', 'EE85739', 'EE85741', 'EE85743', 'EE85746', 'EE85749', 'EE85750', 'EE85752', 'EE85753', 'EE86234', 'EE86255', 'EE86259', 'EE87865', 'EE87866', 'EE87867', 'EE87868', 'EE87869', 'EE87870', 'EE87871', 'EE87872', 'EE87873', 'EE87874', 'EE87875', 'EE87876', 'EE87877', 'EE87878', 'EE87879', 'EE87880', 'EE87881', 'EE87882', 'EE87883', 'EE87884', 'EE87885', 'EE87886', 'EE87887', 'EE87888', 'EE87889', 'EE87890', 'EE87891', 'EE87896', 'EE87897', 'EE87898', 'EE87899', 'EE87900', 'EE87901', 'EE87902', 'EE87903', 'EE87904', 'EE87905', 'EE87906', 'EE87907', 'EE87908', 'EE87909', 'EE87910', 'EE87911', 'EE87912', 'EE87913', 'EE87914', 'EE87915', 'EE87916', 'EE87917', 'EE87918', 'EE87919', 'EE86268', 'EE86270', 'EE86271', 'EE86272', 'EE86273', 'EE88290', 'EE88291', 'EE88292', 'EE88293', 'EE88294', 'EE88295', 'EE88296', 'EE88297', 'EE88298', 'EE88299', 'EE88300', 'EE88301', 'EE88302', 'EE88303', 'EE88304', 'EE88305', 'EE88306', 'EE88307', 'EE88308', 'EE88309', 'EE88310', 'EE88311', 'EE88312', 'EE88313', 'EE88314', 'EE88315', 'EE88316', 'EE88317', 'EE88318', 'EE88319', 'EE88320', 'EE88321', 'EE88322', 'EE88323', 'EE88324', 'EE85898', 'EE85904', 'EE85905', 'EE85908', 'EE85918', 'EE85928', 'EE85936', 'EE85937', 'EE85941', 'EE85959', 'EE85963', 'EE85970', 'EE85971', 'EE85980', 'EE85985', 'EE85987', 'EE85988', 'EE86275', 'EE86276', 'EE87945', 'EE87946', 'EE87920', 'EE87921', 'EE87922', 'EE87923', 'EE87924', 'EE87925', 'EE87926', 'EE87927', 'EE87928', 'EE87929', 'EE87931', 'EE87932', 'EE87933', 'EE87934', 'EE87935', 'EE87936', 'EE87937', 'EE87938', 'EE87939', 'EE87940', 'EE87941', 'EE87942', 'EE87943', 'EE87944', 'EE87947', 'EE87948', 'EE87949', 'EE87950', 'EE87951', 'EE87952', 'EE87953', 'EE87954', 'EE87955', 'EE87956', 'EE87957', 'EE87958', 'EE87959', 'EE87960', 'EE87961', 'EE87962', 'EE87963', 'EE87964', 'EE87965', 'EE87966', 'EE87967', 'EE87968', 'EE87969', 'EE87970', 'EE87971', 'EE87972', 'EE87973', 'EE87974', 'EE87975', 'EE87976', 'EE87977', 'EE87978', 'EE87979', 'EE87980', 'EE87981', 'EE87982', 'EE87983', 'EE87984', 'EE87985', 'EE87986', 'EE87987', 'EE87988', 'EE87989', 'EE87990', 'EE87991', 'EE87992', 'EE87993', 'EE87994', 'EE87995', 'EE87996', 'EE87997', 'EE87998', 'EE87999', 'EE88000', 'EE88001', 'EE88002', 'EE88003', 'EE88004', 'EE88005', 'EE88006', 'EE88007', 'EE88008', 'EE88009', 'EE88010', 'EE88011', 'EE88012', 'EE88013', 'EE88014', 'EE88015', 'EE88016', 'EE88017', 'EE88018', 'EE88019', 'EE88020', 'EE88021', 'EE88022', 'EE88023', 'EE88024', 'EE88025', 'EE88026', 'EE88027', 'EE88028', 'EE88029', 'EE88030', 'EE88031', 'EE88032']
-Creating new binned dataframe with bin size 100000...
-Loaded and binned EE87789. Rows: 26110000 -> 3904
-Loaded and binned EE87790. Rows: 26110000 -> 3904
-Loaded and binned EE87791. Rows: 26110000 -> 3904
-Loaded and binned EE87792. Rows: 26110000 -> 3904
-Loaded and binned EE87793. Rows: 26110000 -> 3904
-Loaded and binned EE87794. Rows: 26110000 -> 3904
-Loaded and binned EE87795. Rows: 26110000 -> 3904
-Loaded and binned EE87796. Rows: 26110000 -> 3904
-Loaded and binned EE87797. Rows: 26110000 -> 3904
-Loaded and binned EE87798. Rows: 26110000 -> 3904
-Loaded and binned EE87799. Rows: 26110000 -> 3904
-Loaded and binned EE87800. Rows: 26110000 -> 3904
-Loaded and binned EE87801. Rows: 26110000 -> 3904
-Loaded and binned EE87802. Rows: 26110000 -> 3904
-Loaded and binned EE87803. Rows: 26110000 -> 3904
-Loaded and binned EE87804. Rows: 26110000 -> 3904
-Loaded and binned EE87805. Rows: 26110000 -> 3904
-Loaded and binned EE87806. Rows: 26110000 -> 3904
-Loaded and binned EE87807. Rows: 26110000 -> 3904
-Loaded and binned EE87809. Rows: 26110000 -> 3904
-Loaded and binned EE87810. Rows: 26110000 -> 3904
-Loaded and binned EE88325. Rows: 26110000 -> 3904
-Loaded and binned EE85727. Rows: 26110000 -> 3904
-Loaded and binned EE85730. Rows: 26110000 -> 3904
-Loaded and binned EE85731. Rows: 26110000 -> 3904
-Loaded and binned EE85732. Rows: 26110000 -> 3904
-Loaded and binned EE85733. Rows: 26110000 -> 3904
-Loaded and binned EE85734. Rows: 26110000 -> 3904
-Loaded and binned EE85737. Rows: 26110000 -> 3904
-Loaded and binned EE85739. Rows: 26110000 -> 3904
-Loaded and binned EE85741. Rows: 26110000 -> 3904
-Loaded and binned EE85743. Rows: 26110000 -> 3904
-Loaded and binned EE85746. Rows: 26110000 -> 3904
-Loaded and binned EE85749. Rows: 26110000 -> 3904
-Loaded and binned EE85750. Rows: 26110000 -> 3904
-Loaded and binned EE85752. Rows: 26110000 -> 3904
-Loaded and binned EE85753. Rows: 26110000 -> 3904
-Loaded and binned EE86234. Rows: 26110000 -> 3904
-Loaded and binned EE86255. Rows: 26110000 -> 3904
-Loaded and binned EE86259. Rows: 26110000 -> 3904
-Loaded and binned EE87865. Rows: 26110000 -> 3904
-Loaded and binned EE87866. Rows: 26110000 -> 3904
-Loaded and binned EE87867. Rows: 26110000 -> 3904
-Loaded and binned EE87868. Rows: 26110000 -> 3904
-Loaded and binned EE87869. Rows: 26110000 -> 3904
-Loaded and binned EE87870. Rows: 26110000 -> 3904
-Loaded and binned EE87871. Rows: 26110000 -> 3904
-Loaded and binned EE87872. Rows: 26110000 -> 3904
-Loaded and binned EE87873. Rows: 26110000 -> 3904
-Loaded and binned EE87874. Rows: 26110000 -> 3904
-Loaded and binned EE87875. Rows: 26110000 -> 3904
-Loaded and binned EE87876. Rows: 26110000 -> 3904
-Loaded and binned EE87877. Rows: 26110000 -> 3904
-Loaded and binned EE87878. Rows: 26110000 -> 3904
-Loaded and binned EE87879. Rows: 26110000 -> 3904
-Loaded and binned EE87880. Rows: 26110000 -> 3904
-Loaded and binned EE87881. Rows: 26110000 -> 3904
-Loaded and binned EE87882. Rows: 26110000 -> 3904
-Loaded and binned EE87883. Rows: 26110000 -> 3904
-Loaded and binned EE87884. Rows: 26110000 -> 3904
-Loaded and binned EE87885. Rows: 26110000 -> 3904
-Loaded and binned EE87886. Rows: 26110000 -> 3904
-Loaded and binned EE87887. Rows: 26110000 -> 3904
-Loaded and binned EE87888. Rows: 26110000 -> 3904
-Loaded and binned EE87889. Rows: 26110000 -> 3904
-Loaded and binned EE87890. Rows: 26110000 -> 3904
-Loaded and binned EE87891. Rows: 26110000 -> 3904
-Loaded and binned EE87896. Rows: 26110000 -> 3904
-Loaded and binned EE87897. Rows: 26110000 -> 3904
-Loaded and binned EE87898. Rows: 26110000 -> 3904
-Loaded and binned EE87899. Rows: 26110000 -> 3904
-Loaded and binned EE87900. Rows: 26110000 -> 3904
-Loaded and binned EE87901. Rows: 26110000 -> 3904
-Loaded and binned EE87902. Rows: 26110000 -> 3904
-Loaded and binned EE87903. Rows: 26110000 -> 3904
-Loaded and binned EE87904. Rows: 26110000 -> 3904
-Loaded and binned EE87905. Rows: 26110000 -> 3904
-Loaded and binned EE87906. Rows: 26110000 -> 3904
-Loaded and binned EE87907. Rows: 26110000 -> 3904
-Loaded and binned EE87908. Rows: 26110000 -> 3904
-Loaded and binned EE87909. Rows: 26110000 -> 3904
-Loaded and binned EE87910. Rows: 26110000 -> 3904
-Loaded and binned EE87911. Rows: 26110000 -> 3904
-Loaded and binned EE87912. Rows: 26110000 -> 3904
-Loaded and binned EE87913. Rows: 26110000 -> 3904
-Loaded and binned EE87914. Rows: 26110000 -> 3904
-Loaded and binned EE87915. Rows: 26110000 -> 3904
-Loaded and binned EE87916. Rows: 26110000 -> 3904
-Loaded and binned EE87917. Rows: 26110000 -> 3904
-Loaded and binned EE87918. Rows: 26110000 -> 3904
-Loaded and binned EE87919. Rows: 26110000 -> 3904
-Loaded and binned EE86268. Rows: 26110000 -> 3904
-Loaded and binned EE86270. Rows: 26110000 -> 3904
-Loaded and binned EE86271. Rows: 26110000 -> 3904
-Loaded and binned EE86272. Rows: 26110000 -> 3904
-Loaded and binned EE86273. Rows: 26110000 -> 3904
-Loaded and binned EE88290. Rows: 26110000 -> 3904
-Loaded and binned EE88291. Rows: 26110000 -> 3904
-Loaded and binned EE88292. Rows: 26110000 -> 3904
-Loaded and binned EE88293. Rows: 26110000 -> 3904
-Loaded and binned EE88294. Rows: 26110000 -> 3904
-Loaded and binned EE88295. Rows: 26110000 -> 3904
-Loaded and binned EE88296. Rows: 26110000 -> 3904
-Loaded and binned EE88297. Rows: 26110000 -> 3904
-Loaded and binned EE88298. Rows: 26110000 -> 3904
-Loaded and binned EE88299. Rows: 26110000 -> 3904
-Loaded and binned EE88300. Rows: 26110000 -> 3904
-Loaded and binned EE88301. Rows: 26110000 -> 3904
-Loaded and binned EE88302. Rows: 26110000 -> 3904
-Loaded and binned EE88303. Rows: 26110000 -> 3904
-Loaded and binned EE88304. Rows: 26110000 -> 3904
-Loaded and binned EE88305. Rows: 26110000 -> 3904
-Loaded and binned EE88306. Rows: 26110000 -> 3904
-Loaded and binned EE88307. Rows: 26110000 -> 3904
-Loaded and binned EE88308. Rows: 26110000 -> 3904
-Loaded and binned EE88309. Rows: 26110000 -> 3904
-Loaded and binned EE88310. Rows: 26110000 -> 3904
-Loaded and binned EE88311. Rows: 26110000 -> 3904
-Loaded and binned EE88312. Rows: 26110000 -> 3904
-Loaded and binned EE88313. Rows: 26110000 -> 3904
-Loaded and binned EE88314. Rows: 26110000 -> 3904
-Loaded and binned EE88315. Rows: 26110000 -> 3904
-Loaded and binned EE88316. Rows: 26110000 -> 3904
-Loaded and binned EE88317. Rows: 26110000 -> 3904
-Loaded and binned EE88318. Rows: 26110000 -> 3904
-Loaded and binned EE88319. Rows: 26110000 -> 3904
-Loaded and binned EE88320. Rows: 26110000 -> 3904
-Loaded and binned EE88321. Rows: 26110000 -> 3904
-Loaded and binned EE88322. Rows: 26110000 -> 3904
-Loaded and binned EE88323. Rows: 26110000 -> 3904
-Loaded and binned EE88324. Rows: 26110000 -> 3904
-Loaded and binned EE85898. Rows: 26110000 -> 3904
-Loaded and binned EE85904. Rows: 26110000 -> 3904
-Loaded and binned EE85905. Rows: 26110000 -> 3904
-Loaded and binned EE85908. Rows: 26110000 -> 3904
-Loaded and binned EE85918. Rows: 26110000 -> 3904
-Loaded and binned EE85928. Rows: 26110000 -> 3904
-Loaded and binned EE85936. Rows: 26110000 -> 3904
-Loaded and binned EE85937. Rows: 26110000 -> 3904
-Loaded and binned EE85941. Rows: 26110000 -> 3904
-Loaded and binned EE85959. Rows: 26110000 -> 3904
-Loaded and binned EE85963. Rows: 26110000 -> 3904
-Loaded and binned EE85970. Rows: 26110000 -> 3904
-Loaded and binned EE85971. Rows: 26110000 -> 3904
-Loaded and binned EE85980. Rows: 26110000 -> 3904
-Loaded and binned EE85985. Rows: 26110000 -> 3904
-Loaded and binned EE85987. Rows: 26110000 -> 3904
-Loaded and binned EE85988. Rows: 26110000 -> 3904
-Loaded and binned EE86275. Rows: 26110000 -> 3904
-Loaded and binned EE86276. Rows: 26110000 -> 3904
-Loaded and binned EE87945. Rows: 26110000 -> 3904
-Loaded and binned EE87946. Rows: 26110000 -> 3904
-Loaded and binned EE87920. Rows: 26110000 -> 3904
-Loaded and binned EE87921. Rows: 26110000 -> 3904
-Loaded and binned EE87922. Rows: 26110000 -> 3904
-Loaded and binned EE87923. Rows: 26110000 -> 3904
-Loaded and binned EE87924. Rows: 26110000 -> 3904
-Loaded and binned EE87925. Rows: 26110000 -> 3904
-Loaded and binned EE87926. Rows: 26110000 -> 3904
-Loaded and binned EE87927. Rows: 26110000 -> 3904
-Loaded and binned EE87928. Rows: 26110000 -> 3904
-Loaded and binned EE87929. Rows: 26110000 -> 3904
-Loaded and binned EE87931. Rows: 26110000 -> 3904
-Loaded and binned EE87932. Rows: 26110000 -> 3904
-Loaded and binned EE87933. Rows: 26110000 -> 3904
-Loaded and binned EE87934. Rows: 26110000 -> 3904
-Loaded and binned EE87935. Rows: 26110000 -> 3904
-Loaded and binned EE87936. Rows: 26110000 -> 3904
-Loaded and binned EE87937. Rows: 26110000 -> 3904
-Loaded and binned EE87938. Rows: 26110000 -> 3904
-Loaded and binned EE87939. Rows: 26110000 -> 3904
-Loaded and binned EE87940. Rows: 26110000 -> 3904
-Loaded and binned EE87941. Rows: 26110000 -> 3904
-Loaded and binned EE87942. Rows: 26110000 -> 3904
-Loaded and binned EE87943. Rows: 26110000 -> 3904
-Loaded and binned EE87944. Rows: 26110000 -> 3904
-Loaded and binned EE87947. Rows: 26110000 -> 3904
-Loaded and binned EE87948. Rows: 26110000 -> 3904
-Loaded and binned EE87949. Rows: 26110000 -> 3904
-Loaded and binned EE87950. Rows: 26110000 -> 3904
-Loaded and binned EE87951. Rows: 26110000 -> 3904
-Loaded and binned EE87952. Rows: 26110000 -> 3904
-Loaded and binned EE87953. Rows: 26110000 -> 3904
-Loaded and binned EE87954. Rows: 26110000 -> 3904
-Loaded and binned EE87955. Rows: 26110000 -> 3904
-Loaded and binned EE87956. Rows: 26110000 -> 3904
-Loaded and binned EE87957. Rows: 26110000 -> 3904
-Loaded and binned EE87958. Rows: 26110000 -> 3904
-Loaded and binned EE87959. Rows: 26110000 -> 3904
-Loaded and binned EE87960. Rows: 26110000 -> 3904
-Loaded and binned EE87961. Rows: 26110000 -> 3904
-Loaded and binned EE87962. Rows: 26110000 -> 3904
-Loaded and binned EE87963. Rows: 26110000 -> 3904
-Loaded and binned EE87964. Rows: 26110000 -> 3904
-Loaded and binned EE87965. Rows: 26110000 -> 3904
-Loaded and binned EE87966. Rows: 26110000 -> 3904
-Loaded and binned EE87967. Rows: 26110000 -> 3904
-Loaded and binned EE87968. Rows: 26110000 -> 3904
-Loaded and binned EE87969. Rows: 26110000 -> 3904
-Loaded and binned EE87970. Rows: 26110000 -> 3904
-Loaded and binned EE87971. Rows: 26110000 -> 3904
-Loaded and binned EE87972. Rows: 26110000 -> 3904
-Loaded and binned EE87973. Rows: 26110000 -> 3904
-Loaded and binned EE87974. Rows: 26110000 -> 3904
-Loaded and binned EE87975. Rows: 26110000 -> 3904
-Loaded and binned EE87976. Rows: 26110000 -> 3904
-Loaded and binned EE87977. Rows: 26110000 -> 3904
-Loaded and binned EE87978. Rows: 26110000 -> 3904
-Loaded and binned EE87979. Rows: 26110000 -> 3904
-Loaded and binned EE87980. Rows: 26110000 -> 3904
-Loaded and binned EE87981. Rows: 26110000 -> 3904
-Loaded and binned EE87982. Rows: 26110000 -> 3904
-Loaded and binned EE87983. Rows: 26110000 -> 3904
-Loaded and binned EE87984. Rows: 26110000 -> 3904
-Loaded and binned EE87985. Rows: 26110000 -> 3904
-Loaded and binned EE87986. Rows: 26110000 -> 3904
-Loaded and binned EE87987. Rows: 26110000 -> 3904
-Loaded and binned EE87988. Rows: 26110000 -> 3904
-Loaded and binned EE87989. Rows: 26110000 -> 3904
-Loaded and binned EE87990. Rows: 26110000 -> 3904
-Loaded and binned EE87991. Rows: 26110000 -> 3904
-Loaded and binned EE87992. Rows: 26110000 -> 3904
-Loaded and binned EE87993. Rows: 26110000 -> 3904
-Loaded and binned EE87994. Rows: 26110000 -> 3904
-Loaded and binned EE87995. Rows: 26110000 -> 3904
-Loaded and binned EE87996. Rows: 26110000 -> 3904
-Loaded and binned EE87997. Rows: 26110000 -> 3904
-Loaded and binned EE87998. Rows: 26110000 -> 3904
-Loaded and binned EE87999. Rows: 26110000 -> 3904
-Loaded and binned EE88000. Rows: 26110000 -> 3904
-Loaded and binned EE88001. Rows: 26110000 -> 3904
-Loaded and binned EE88002. Rows: 26110000 -> 3904
-Loaded and binned EE88003. Rows: 26110000 -> 3904
-Loaded and binned EE88004. Rows: 26110000 -> 3904
-Loaded and binned EE88005. Rows: 26110000 -> 3904
-Loaded and binned EE88006. Rows: 26110000 -> 3904
-Loaded and binned EE88007. Rows: 26110000 -> 3904
-Loaded and binned EE88008. Rows: 26110000 -> 3904
-Loaded and binned EE88009. Rows: 26110000 -> 3904
-Loaded and binned EE88010. Rows: 26110000 -> 3904
-Loaded and binned EE88011. Rows: 26110000 -> 3904
-Loaded and binned EE88012. Rows: 26110000 -> 3904
-Loaded and binned EE88013. Rows: 26110000 -> 3904
-Loaded and binned EE88014. Rows: 26110000 -> 3904
-Loaded and binned EE88015. Rows: 26110000 -> 3904
-Loaded and binned EE88016. Rows: 26110000 -> 3904
-Loaded and binned EE88017. Rows: 26110000 -> 3904
-Loaded and binned EE88018. Rows: 26110000 -> 3904
-Loaded and binned EE88019. Rows: 26110000 -> 3904
-Loaded and binned EE88020. Rows: 26110000 -> 3904
-Loaded and binned EE88021. Rows: 26110000 -> 3904
-Loaded and binned EE88022. Rows: 26110000 -> 3904
-Loaded and binned EE88023. Rows: 26110000 -> 3904
-Loaded and binned EE88024. Rows: 26110000 -> 3904
-Loaded and binned EE88025. Rows: 26110000 -> 3904
-Loaded and binned EE88026. Rows: 26110000 -> 3904
-Loaded and binned EE88027. Rows: 26110000 -> 3904
-Loaded and binned EE88028. Rows: 26110000 -> 3904
-Loaded and binned EE88029. Rows: 26110000 -> 3904
-Loaded and binned EE88030. Rows: 26110000 -> 3904
-Loaded and binned EE88031. Rows: 26110000 -> 3904
-Loaded and binned EE88032. Rows: 26110000 -> 3904
-Data successfully loaded and binned. Total rows: 1022848
-Number of NaN values before imputation: 0
-No NaN values found. Skipping imputation.
-Saved binned dataframe to /labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/binned_combined_df_100000.parquet
-Loading existing binned combined dataframe...
-Loading existing final feature matrix...
-  chrom    start     stop name  ...    max   sample     group  bin
-0  chr1   920000   925000    .  ...  190.0  EE87789  bileduct    9
-1  chr1  1070000  1075000    .  ...  208.0  EE87789  bileduct   10
-2  chr1  1165000  1170000    .  ...  233.0  EE87789  bileduct   11
-3  chr1  1170000  1175000    .  ...  201.0  EE87789  bileduct   11
-4  chr1  1175000  1180000    .  ...  218.0  EE87789  bileduct   11
-
-[5 rows x 12 columns]
-    sample       group chrom  bin  ...  median      stdev    min         max
-0  EE85727  colorectal  chr1    9  ...    85.5  63.500000   22.0  149.000000
-1  EE85727  colorectal  chr1   10  ...   133.5   0.500000  133.0  134.000000
-2  EE85727  colorectal  chr1   11  ...    86.0  15.918508   49.0  103.666667
-3  EE85727  colorectal  chr1   12  ...    99.0  57.685560   63.5  218.500000
-4  EE85727  colorectal  chr1   13  ...   117.5  17.801407   98.5  143.500000
-
-[5 rows x 9 columns]
-(1022848, 9)
-    sample     group chrom  bin  wps_value
-0  EE87789  bileduct  chr1    9   0.051597
-1  EE87789  bileduct  chr1   10  -0.174507
-2  EE87789  bileduct  chr1   11  -0.274645
-3  EE87789  bileduct  chr1   12  -0.105827
-4  EE87789  bileduct  chr1   13  -0.303271
-    sample       group chrom  bin  ...      stdev    min         max  wps_value
-0  EE85727  colorectal  chr1    9  ...  63.500000   22.0  149.000000    -0.0422
-1  EE85727  colorectal  chr1   10  ...   0.500000  133.0  134.000000    -0.0906
-2  EE85727  colorectal  chr1   11  ...  15.918508   49.0  103.666667    -0.2056
-3  EE85727  colorectal  chr1   12  ...  57.685560   63.5  218.500000    -0.0867
-4  EE85727  colorectal  chr1   13  ...  17.801407   98.5  143.500000    -0.0611
-
-[5 rows x 10 columns]
-Original bins: 1293232
-Filtered bins: 1290350
-Removed bins: 2882
-Calculating GC-content…
+all_vs_healthy
+Pancreatic Cancer
+Gender+Age
+5000
+Index(['Patient', 'Extracted_ID', 'Patient Type', 'Sample Type', 'Timepoint',
+       'Age at Diagnosis', 'Gender', 'Stage', 'TNM Staging',
+       'Site of Primary Tumor', 'Histopathological Diagnosis',
+       'Degree of Differentiation', 'Location of Metastases at Diagnosis',
+       'Volume of Plasma (ml)', 'cfDNA Extracted (ng/ml)',
+       'cfDNA Input (ng/ml)', 'Whole Genome Fragment Profile  Analysis',
+       'Targeted Fragment Profile Analysis', 'Targeted Mutation Analysis'],
+      dtype='str')
+Specific group: Pancancer
+(99, 19)
+(108, 19)
+99
+99
     sample       group chrom  bin  ...  wps_value    start      end      GC
-0  EE85727  colorectal  chr1   92  ...    -0.0422   920000   930000  0.6579
-1  EE85727  colorectal  chr1  107  ...    -0.0906  1070000  1080000  0.6713
-2  EE85727  colorectal  chr1  116  ...     0.0000  1160000  1170000  0.6668
-3  EE85727  colorectal  chr1  117  ...    -0.3084  1170000  1180000  0.6147
-4  EE85727  colorectal  chr1  126  ...    -0.1290  1260000  1270000  0.5382
+0  EE85727  colorectal  chr1  184  ...  -0.329578   920000   925000  0.6632
+1  EE85727  colorectal  chr1  214  ...  -0.352073  1070000  1075000  0.6486
+2  EE85727  colorectal  chr1  233  ...  -0.309450  1165000  1170000  0.6758
+3  EE85727  colorectal  chr1  234  ...  -0.687972  1170000  1175000  0.6190
+4  EE85727  colorectal  chr1  235  ...  -0.328470  1175000  1180000  0.6104
 
 [5 rows x 13 columns]
-Coverage columns to correct: ['mean', 'median', 'stdev', 'min', 'max', 'wps_value']
-Processing sample: EE85727
-Processing sample: EE85730
-Processing sample: EE85731
-Processing sample: EE85732
-Processing sample: EE85733
-Processing sample: EE85734
-Processing sample: EE85737
-Processing sample: EE85739
-Processing sample: EE85741
-Processing sample: EE85743
-Processing sample: EE85746
-Processing sample: EE85749
-Processing sample: EE85750
-Processing sample: EE85752
-Processing sample: EE85753
-Processing sample: EE85898
-Processing sample: EE85904
-Processing sample: EE85905
-Processing sample: EE85908
-Processing sample: EE85918
-Processing sample: EE85928
-Processing sample: EE85936
-Processing sample: EE85937
-Processing sample: EE85941
-Processing sample: EE85959
-Processing sample: EE85963
-Processing sample: EE85970
-Processing sample: EE85971
-Processing sample: EE85980
-Processing sample: EE85985
-Processing sample: EE85987
-Processing sample: EE85988
-Processing sample: EE86234
-Processing sample: EE86255
-Processing sample: EE86259
-Processing sample: EE86268
-Processing sample: EE86270
-Processing sample: EE86271
-Processing sample: EE86272
-Processing sample: EE86273
-Processing sample: EE86275
-Processing sample: EE86276
-Processing sample: EE87789
-Processing sample: EE87790
-Processing sample: EE87791
-Processing sample: EE87792
-Processing sample: EE87793
-Processing sample: EE87794
-Processing sample: EE87795
-Processing sample: EE87796
-Processing sample: EE87797
-Processing sample: EE87798
-Processing sample: EE87799
-Processing sample: EE87800
-Processing sample: EE87801
-Processing sample: EE87802
-Processing sample: EE87803
-Processing sample: EE87804
-Processing sample: EE87805
-Processing sample: EE87806
-Processing sample: EE87807
-Processing sample: EE87809
-Processing sample: EE87810
-Processing sample: EE87865
-Processing sample: EE87866
-Processing sample: EE87867
-Processing sample: EE87868
-Processing sample: EE87869
-Processing sample: EE87870
-Processing sample: EE87871
-Processing sample: EE87872
-Processing sample: EE87873
-Processing sample: EE87874
-Processing sample: EE87875
-Processing sample: EE87876
-Processing sample: EE87877
-Processing sample: EE87878
-Processing sample: EE87879
-Processing sample: EE87880
-Processing sample: EE87881
-Processing sample: EE87882
-Processing sample: EE87883
-Processing sample: EE87884
-Processing sample: EE87885
-Processing sample: EE87886
-Processing sample: EE87887
-Processing sample: EE87888
-Processing sample: EE87889
-Processing sample: EE87890
-Processing sample: EE87891
-Processing sample: EE87896
-Processing sample: EE87897
-Processing sample: EE87898
-Processing sample: EE87899
-Processing sample: EE87900
-Processing sample: EE87901
-Processing sample: EE87902
-Processing sample: EE87903
-Processing sample: EE87904
-Processing sample: EE87905
-Processing sample: EE87906
-Processing sample: EE87907
-Processing sample: EE87908
-Processing sample: EE87909
-Processing sample: EE87910
-Processing sample: EE87911
-Processing sample: EE87912
-Processing sample: EE87913
-Processing sample: EE87914
-Processing sample: EE87915
-Processing sample: EE87916
-Processing sample: EE87917
-Processing sample: EE87918
-Processing sample: EE87919
-Processing sample: EE87920
-Processing sample: EE87921
-Processing sample: EE87922
-Processing sample: EE87923
-Processing sample: EE87924
-Processing sample: EE87925
-Processing sample: EE87926
-Processing sample: EE87927
-Processing sample: EE87928
-Processing sample: EE87929
-Processing sample: EE87931
-Processing sample: EE87932
-Processing sample: EE87933
-Processing sample: EE87934
-Processing sample: EE87935
-Processing sample: EE87936
-Processing sample: EE87937
-Processing sample: EE87938
-Processing sample: EE87939
-Processing sample: EE87940
-Processing sample: EE87941
-Processing sample: EE87942
-Processing sample: EE87943
-Processing sample: EE87944
-Processing sample: EE87945
-Processing sample: EE87946
-Processing sample: EE87947
-Processing sample: EE87948
-Processing sample: EE87949
-Processing sample: EE87950
-Processing sample: EE87951
-Processing sample: EE87952
-Processing sample: EE87953
-Processing sample: EE87954
-Processing sample: EE87955
-Processing sample: EE87956
-Processing sample: EE87957
-Processing sample: EE87958
-Processing sample: EE87959
-Processing sample: EE87960
-Processing sample: EE87961
-Processing sample: EE87962
-Processing sample: EE87963
-Processing sample: EE87964
-Processing sample: EE87965
-Processing sample: EE87966
-Processing sample: EE87967
-Processing sample: EE87968
-Processing sample: EE87969
-Processing sample: EE87970
-Processing sample: EE87971
-Processing sample: EE87972
-Processing sample: EE87973
-Processing sample: EE87974
-Processing sample: EE87975
-Processing sample: EE87976
-Processing sample: EE87977
-Processing sample: EE87978
-Processing sample: EE87979
-Processing sample: EE87980
-Processing sample: EE87981
-Processing sample: EE87982
-Processing sample: EE87983
-Processing sample: EE87984
-Processing sample: EE87985
-Processing sample: EE87986
-Processing sample: EE87987
-Processing sample: EE87988
-Processing sample: EE87989
-Processing sample: EE87990
-Processing sample: EE87991
-Processing sample: EE87992
-Processing sample: EE87993
-Processing sample: EE87994
-Processing sample: EE87995
-Processing sample: EE87996
-Processing sample: EE87997
-Processing sample: EE87998
-Processing sample: EE87999
-Processing sample: EE88000
-Processing sample: EE88001
-Processing sample: EE88002
-Processing sample: EE88003
-Processing sample: EE88004
-Processing sample: EE88005
-Processing sample: EE88006
-Processing sample: EE88007
-Processing sample: EE88008
-Processing sample: EE88009
-Processing sample: EE88010
-Processing sample: EE88011
-Processing sample: EE88012
-Processing sample: EE88013
-Processing sample: EE88014
-Processing sample: EE88015
-Processing sample: EE88016
-Processing sample: EE88017
-Processing sample: EE88018
-Processing sample: EE88019
-Processing sample: EE88020
-Processing sample: EE88021
-Processing sample: EE88022
-Processing sample: EE88023
-Processing sample: EE88024
-Processing sample: EE88025
-Processing sample: EE88026
-Processing sample: EE88027
-Processing sample: EE88028
-Processing sample: EE88029
-Processing sample: EE88030
-Processing sample: EE88031
-Processing sample: EE88032
-Processing sample: EE88290
-Processing sample: EE88291
-Processing sample: EE88292
-Processing sample: EE88293
-Processing sample: EE88294
-Processing sample: EE88295
-Processing sample: EE88296
-Processing sample: EE88297
-Processing sample: EE88298
-Processing sample: EE88299
-Processing sample: EE88300
-Processing sample: EE88301
-Processing sample: EE88302
-Processing sample: EE88303
-Processing sample: EE88304
-Processing sample: EE88305
-Processing sample: EE88306
-Processing sample: EE88307
-Processing sample: EE88308
-Processing sample: EE88309
-Processing sample: EE88310
-Processing sample: EE88311
-Processing sample: EE88312
-Processing sample: EE88313
-Processing sample: EE88314
-Processing sample: EE88315
-Processing sample: EE88316
-Processing sample: EE88317
-Processing sample: EE88318
-Processing sample: EE88319
-Processing sample: EE88320
-Processing sample: EE88321
-Processing sample: EE88322
-Processing sample: EE88323
-Processing sample: EE88324
-Processing sample: EE88325
-GC-corrected matrix saved to: /labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/final_feature_matrix_gc_corrected_10000.tsv
-    sample       group chrom  bin  ...  wps_value    start      end      GC
-0  EE85727  colorectal  chr1   92  ...  -0.356113   920000   930000  0.6579
-1  EE85727  colorectal  chr1  107  ...  -0.426888  1070000  1080000  0.6713
-2  EE85727  colorectal  chr1  116  ...  -0.328806  1160000  1170000  0.6668
-3  EE85727  colorectal  chr1  117  ...  -0.548052  1170000  1180000  0.6147
-4  EE85727  colorectal  chr1  126  ...  -0.227893  1260000  1270000  0.5382
+Index(['sample', 'group', 'chrom', 'bin', 'mean', 'median', 'stdev', 'min',
+       'max', 'wps_value', 'start', 'end', 'GC'],
+      dtype='str')
+Number of Samples in Matrix: 198
+Number of Bins per Sample: 5213.0
+The median of age at diagnosis is: 64.0
+STAGE 1: Fast Screening (all combinations)
+Screening combination ('mean',)...
+No NaNs in dataframe
+  > Fast AUC: 0.807
+Screening combination ('median',)...
+No NaNs in dataframe
+  > Fast AUC: 0.802
+Screening combination ('stdev',)...
+No NaNs in dataframe
+  > Fast AUC: 0.822
+Screening combination ('wps_value',)...
+No NaNs in dataframe
+  > Fast AUC: 0.694
+Screening combination ('min',)...
+No NaNs in dataframe
+  > Fast AUC: 0.579
+Screening combination ('max',)...
+No NaNs in dataframe
+  > Fast AUC: 0.739
+Screening combination ('mean', 'median')...
+No NaNs in dataframe
+  > Fast AUC: 0.807
+Screening combination ('mean', 'stdev')...
+No NaNs in dataframe
+  > Fast AUC: 0.847
+Screening combination ('mean', 'wps_value')...
+No NaNs in dataframe
+  > Fast AUC: 0.759
+Screening combination ('mean', 'min')...
+No NaNs in dataframe
+  > Fast AUC: 0.759
+Screening combination ('mean', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.830
+Screening combination ('median', 'stdev')...
+No NaNs in dataframe
+  > Fast AUC: 0.872
+Screening combination ('median', 'wps_value')...
+No NaNs in dataframe
+  > Fast AUC: 0.747
+Screening combination ('median', 'min')...
+No NaNs in dataframe
+  > Fast AUC: 0.782
+Screening combination ('median', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.880
+Screening combination ('stdev', 'wps_value')...
+No NaNs in dataframe
+  > Fast AUC: 0.739
+Screening combination ('stdev', 'min')...
+No NaNs in dataframe
+  > Fast AUC: 0.772
+Screening combination ('stdev', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.852
+Screening combination ('wps_value', 'min')...
+No NaNs in dataframe
+  > Fast AUC: 0.594
+Screening combination ('wps_value', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.679
+Screening combination ('min', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.642
+Screening combination ('mean', 'median', 'stdev')...
+No NaNs in dataframe
+  > Fast AUC: 0.857
+Screening combination ('mean', 'median', 'wps_value')...
+No NaNs in dataframe
+  > Fast AUC: 0.754
+Screening combination ('mean', 'median', 'min')...
+No NaNs in dataframe
+  > Fast AUC: 0.789
+Screening combination ('mean', 'median', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.850
+Screening combination ('mean', 'stdev', 'wps_value')...
+No NaNs in dataframe
+  > Fast AUC: 0.789
+Screening combination ('mean', 'stdev', 'min')...
+No NaNs in dataframe
+  > Fast AUC: 0.762
+Screening combination ('mean', 'stdev', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.852
+Screening combination ('mean', 'wps_value', 'min')...
+No NaNs in dataframe
+  > Fast AUC: 0.772
+Screening combination ('mean', 'wps_value', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.832
+Screening combination ('mean', 'min', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.757
+Screening combination ('median', 'stdev', 'wps_value')...
+No NaNs in dataframe
+  > Fast AUC: 0.787
+Screening combination ('median', 'stdev', 'min')...
+No NaNs in dataframe
+  > Fast AUC: 0.797
+Screening combination ('median', 'stdev', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.827
+Screening combination ('median', 'wps_value', 'min')...
+No NaNs in dataframe
+  > Fast AUC: 0.784
+Screening combination ('median', 'wps_value', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.762
+Screening combination ('median', 'min', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.774
+Screening combination ('stdev', 'wps_value', 'min')...
+No NaNs in dataframe
+  > Fast AUC: 0.702
+Screening combination ('stdev', 'wps_value', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.812
+Screening combination ('stdev', 'min', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.767
+Screening combination ('wps_value', 'min', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.694
+Screening combination ('mean', 'median', 'stdev', 'wps_value')...
+No NaNs in dataframe
+  > Fast AUC: 0.799
+Screening combination ('mean', 'median', 'stdev', 'min')...
+No NaNs in dataframe
+  > Fast AUC: 0.797
+Screening combination ('mean', 'median', 'stdev', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.840
+Screening combination ('mean', 'median', 'wps_value', 'min')...
+No NaNs in dataframe
+  > Fast AUC: 0.704
+Screening combination ('mean', 'median', 'wps_value', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.822
+Screening combination ('mean', 'median', 'min', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.792
+Screening combination ('mean', 'stdev', 'wps_value', 'min')...
+No NaNs in dataframe
+  > Fast AUC: 0.787
+Screening combination ('mean', 'stdev', 'wps_value', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.877
+Screening combination ('mean', 'stdev', 'min', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.827
+Screening combination ('mean', 'wps_value', 'min', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.815
+Screening combination ('median', 'stdev', 'wps_value', 'min')...
+No NaNs in dataframe
+  > Fast AUC: 0.752
+Screening combination ('median', 'stdev', 'wps_value', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.855
+Screening combination ('median', 'stdev', 'min', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.837
+Screening combination ('median', 'wps_value', 'min', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.774
+Screening combination ('stdev', 'wps_value', 'min', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.754
+Screening combination ('mean', 'median', 'stdev', 'wps_value', 'min')...
+No NaNs in dataframe
+  > Fast AUC: 0.840
+Screening combination ('mean', 'median', 'stdev', 'wps_value', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.872
+Screening combination ('mean', 'median', 'stdev', 'min', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.842
+Screening combination ('mean', 'median', 'wps_value', 'min', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.827
+Screening combination ('mean', 'stdev', 'wps_value', 'min', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.830
+Screening combination ('median', 'stdev', 'wps_value', 'min', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.767
+Screening combination ('mean', 'median', 'stdev', 'wps_value', 'min', 'max')...
+No NaNs in dataframe
+  > Fast AUC: 0.830
 
-[5 rows x 13 columns]
-==== Fragmentomics pipeline started ====
+Top 10 candidates found. Starting Stage 2 Deep Analysis...
 
-
-===== RUNNING BIN SIZE 100000 =====
-
-[BIN 100000 | 00_preprocessing_exploration.py] START
-[BIN 100000 | 00_preprocessing_exploration.py] DONE in 3137.1s
-
-[BIN 100000 | 01_blacklist.py] START
-[BIN 100000 | 01_blacklist.py] DONE in 19.9s
-
-[BIN 100000 | 02_gc_correction.py] START
-[BIN 100000 | 02_gc_correction.py] DONE in 795.8s
-
-
-==== ALL BIN SIZES FINISHED SUCCESSFULLY ====
+STAGE 2: Full Benchmarking Top 10
+No NaNs in dataframe
+  > Full benchmarking for ('median', 'max')...
+/labmed/workspace/lotta/.venv/lib/python3.12/site-packages/sklearn/linear_model/_logistic.py:1160: UserWarning: Inconsistent values: penalty=l1 with l1_ratio=0.0. penalty is deprecated. Please use l1_ratio only.
+  warnings.warn(
+Fold 1/5...
+  AUC = 0.734, Best C = 1526.4179671752302
+Fold 2/5...
+  AUC = 0.859, Best C = 494.1713361323828
+Fold 3/5...
+  AUC = 0.832, Best C = 2222.996482526191
+Fold 4/5...
+  AUC = 0.883, Best C = 4714.8663634573895
+Fold 5/5...
+  AUC = 0.825, Best C = 11.513953993264458
+No NaNs in dataframe
+  > Full benchmarking for ('mean', 'stdev', 'wps_value', 'max')...
+/labmed/workspace/lotta/.venv/lib/python3.12/site-packages/sklearn/linear_model/_logistic.py:1160: UserWarning: Inconsistent values: penalty=l1 with l1_ratio=0.0. penalty is deprecated. Please use l1_ratio only.
+  warnings.warn(
