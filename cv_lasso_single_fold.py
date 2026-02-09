@@ -5,7 +5,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 from collections import defaultdict
-from config import BIN_SIZE as bin_size
+from config import BIN_SIZE, SPECIFIC_GROUP
 from sklearn.metrics import (
     accuracy_score, 
     precision_score, 
@@ -214,7 +214,7 @@ def plot_roc_curves(ergebnisse):
     plt.legend(loc='lower right')
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
-    plt.savefig(f"/labmed/workspace/lotta/finaletoolkit/outputs/plots/roc_curve_{bin_size}_fold.png")
+    plt.savefig(f"/labmed/workspace/lotta/finaletoolkit/outputs/plots/roc_curve_per_fold_{BIN_SIZE}_{SPECIFIC_GROUP}.png")
     # In function, we typically don't call show() if we want to save later or combine, 
     # but since user wants immediate plots in notebook, we keep one show at the END of function.
     plt.show()
@@ -229,6 +229,7 @@ def plot_auc_boxplot(ergebnisse):
     
     plt.ylabel('AUC')
     plt.title(f'AUC Distribution\nMean = {np.mean(auc_values):.3f} ± {np.std(auc_values):.3f}')
+    plt.savefig(f"/labmed/workspace/lotta/finaletoolkit/outputs/plots/auc_distribution_{BIN_SIZE}_{SPECIFIC_GROUP}.png")
     plt.show()
 
 # # Voraussetzung: X und y sind bereits vorbereitet

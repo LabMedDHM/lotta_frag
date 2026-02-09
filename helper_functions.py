@@ -21,8 +21,21 @@ from matplotlib.colors import ListedColormap
 
 
 def preprocess_data(df, clinical_df, STRATIFY_BY, metrics):
+    df["bin_id"] = df["chrom"] + "_" + df["start"].astype(str)
+
     pivot_df = df.pivot(index="sample", columns="bin_id", values=list(metrics))
     pivot_df.columns = [f"{metric}_{bin_id}" for metric, bin_id in pivot_df.columns]
+
+    if ANALYSIS_MODE == "specific_vs_healthy":
+        # Filter for the specific group
+        healthy_samples = clinical_df[clinical_df["Patient Type"] == "Healthy"]["Extracted_ID"]
+        specific_samples = clinical_df[clinical_df["Patient Type"] == SPECIFIC_GROUP]["Extracted_ID"]
+
+        # Filter the pivot table
+        pivot_df = pivot_df.loc[healthy_samples.tolist() + specific_samples.tolist()]
+
+        # Update the clinical_df to match the pivot_df
+        clinical_df = clinical_df[clinical_df["Extracted_ID"].isin(pivot_df.index)]
 
     # Align clinical data exactly to X: Gleiche reihenfolge wie pivot_df
     clinical_df_sub = (
@@ -130,14 +143,14 @@ def calculate_cs(simple_pipeline):
     best_idx = np.argmax(mean_scores)
     best_score = mean_scores[best_idx]
     best_c = float(lasso_cv.Cs_[best_idx])
-
+    cs = lasso_cv.Cs_
     std_scores = np.std(lasso_cv.scores_[1], axis=0)
     sem_scores = std_scores / np.sqrt(5)
     threshold = best_score - sem_scores[best_idx]
     idx_1se = np.where(mean_scores >= threshold)[0][0]
     c_1se = float(lasso_cv.Cs_[idx_1se])
 
-    return best_c, c_1se, best_score, threshold 
+    return best_c, c_1se, best_score, threshold, mean_scores, sem_scores, cs
 
 
 def calculate_stability(X_train, y_train, simple_pipeline, stable_pipeline):
