@@ -186,7 +186,7 @@ def analyze_feature_stability(ergebnisse):
 
 
 
-def plot_roc_curves(ergebnisse, SPECIFIC_GROUP):
+def plot_roc_curves(ergebnisse, SPECIFIC_GROUP_FILE):
     plt.figure(figsize=(10, 8))
     
     # Individual Folds
@@ -214,13 +214,13 @@ def plot_roc_curves(ergebnisse, SPECIFIC_GROUP):
     plt.legend(loc='lower right')
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
-    plt.savefig(f"/labmed/workspace/lotta/finaletoolkit/outputs/plots/{BIN_SIZE}/roc_curve_per_fold_{SPECIFIC_GROUP}.png")
+    plt.savefig(f"/labmed/workspace/lotta/finaletoolkit/outputs/plots/{SPECIFIC_GROUP_FILE}/{BIN_SIZE}/roc_curve_per_fold.png")
     # In function, we typically don't call show() if we want to save later or combine, 
     # but since user wants immediate plots in notebook, we keep one show at the END of function.
     plt.show()
 
 
-def plot_auc_boxplot(ergebnisse, SPECIFIC_GROUP):
+def plot_auc_boxplot(ergebnisse, SPECIFIC_GROUP_FILE):
     auc_values = [e['auc'] for e in ergebnisse]
     
     plt.figure(figsize=(6, 6))
@@ -229,7 +229,7 @@ def plot_auc_boxplot(ergebnisse, SPECIFIC_GROUP):
     
     plt.ylabel('AUC')
     plt.title(f'AUC Distribution\nMean = {np.mean(auc_values):.3f} ± {np.std(auc_values):.3f}')
-    plt.savefig(f"/labmed/workspace/lotta/finaletoolkit/outputs/plots/{BIN_SIZE}/auc_distribution_{SPECIFIC_GROUP}.png")
+    plt.savefig(f"/labmed/workspace/lotta/finaletoolkit/outputs/plots/{SPECIFIC_GROUP_FILE}/{BIN_SIZE}/auc_distribution.png")
     plt.show()
 
 # # Voraussetzung: X und y sind bereits vorbereitet
