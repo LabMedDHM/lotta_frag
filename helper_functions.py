@@ -21,6 +21,9 @@ from matplotlib.colors import ListedColormap
 
 
 def preprocess_data(df, clinical_df, STRATIFY_BY, metrics):
+    if isinstance(metrics, str):
+        raise TypeError(f"'metrics' muss list/tuple sein, ist aber str: {metrics!r}")
+        
     df["bin_id"] = df["chrom"] + "_" + df["start"].astype(str)
 
     pivot_df = df.pivot(index="sample", columns="bin_id", values=list(metrics))
@@ -101,7 +104,7 @@ def get_stable_pipeline(c_1se):
         max_iter=10000, 
         random_state=42
     ))
-])
+    ]   )
     return stable_pipeline
 
 def get_simple_pipeline():
@@ -177,3 +180,47 @@ def calculate_stability(X_train, y_train, simple_pipeline, stable_pipeline):
     cv_auc = np.mean([e['auc'] for e in cv_results])
 
     return n_stable, n_simple, n_pars, simple_stability_ratio, pars_stability_ratio, c_variation, cv_auc
+
+
+import ast
+
+def ensure_metrics_list(x):
+    # Missing values
+    if x is None or (isinstance(x, float) and np.isnan(x)):
+        return []
+
+    # Already list/tuple
+    if isinstance(x, (list, tuple)):
+        return list(x)
+
+    # Sometimes numpy array
+    if isinstance(x, np.ndarray):
+        return list(x)
+
+    # String cases
+    if isinstance(x, str):
+        s = x.strip()
+
+        # Case: python literal representation of list/tuple
+        if (s.startswith("(") and s.endswith(")")) or (s.startswith("[") and s.endswith("]")):
+            try:
+                v = ast.literal_eval(s)
+                if isinstance(v, (list, tuple)):
+                    return list(v)
+                return [str(v)]
+            except Exception:
+                # fall through to manual parsing
+                pass
+
+        # Case: "median, stdev"
+        if "," in s:
+            return [p.strip().strip("'").strip('"') for p in s.split(",") if p.strip()]
+
+        # Case: "median"
+        return [s.strip("'").strip('"')]
+
+    # Fallback: unknown type -> wrap
+    return [str(x)]
+
+
+
