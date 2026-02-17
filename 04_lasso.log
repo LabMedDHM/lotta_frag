@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "/labmed/workspace/lotta/finaletoolkit/ba_analysis_scripts/04_lasso_modeling.py", line 9, in <module>
-    from sklearn.linear_model import LogisticRegression, LogisticRegressionCV
-ModuleNotFoundError: No module named 'sklearn'
