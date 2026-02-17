@@ -3,7 +3,7 @@
 
 # # Installing Packages
 
-# In[11]:
+# In[13]:
 
 
 import os
@@ -32,11 +32,15 @@ from sklearn.model_selection import RepeatedStratifiedKFold, cross_val_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
+import importlib
+import config 
+importlib.reload(config)
+from config import BIN_SIZE as bin_size
 
 
 # # Loading Samples (262 without Holdout-Dataset)
 
-# In[12]:
+# In[15]:
 
 
 cancer_samples = [
@@ -147,7 +151,7 @@ print(all_samples)
 
 # # Cancer Typ aus dem Pfad extrahieren
 
-# In[13]:
+# In[16]:
 
 
 def get_cancer_type(sample):
@@ -159,11 +163,15 @@ def get_cancer_type(sample):
 
 # # Creating and Loading of Bedgraph Files 
 
-# In[14]:
+# # Bin-Wide-Analysis, Binning the genome, Bin Size in Config File 
+# 
+
+# In[ ]:
 
 
 bedgraph_dir = os.path.expanduser('/labmed/workspace/lotta/finaletoolkit/carsten/data_adjust_wps')
 from config import BIN_SIZE as bin_size
+print(bin_size)
 
 binned_output_path = f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/binned_combined_df_{bin_size}.parquet"
 
@@ -228,42 +236,13 @@ else:
         print("No data found!")
 
 
-# Paper Fragment lenght profiles:
-# - definiert kurze Fragmente als 100 - 150 und lange Fragmente als 151 - 250
-# 
-# 
-# -   ◦ Kurze ALT-Fragmente: ALT-Fragmente, die kürzer als 150 bp waren
-# 
-# 
-#     ◦ Lange ALT-Fragmente: ALT-Fragmente, die länger als 150 bp waren (nehme ich auch noch rein)
-# 
-
-# # Bin-Wide-Analysis, Binning the genome, Bin Size in Config File 
-# 
-
-# In[15]:
-
-
-from config import BIN_SIZE as bin_size
-
-if os.path.exists(f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/binned_combined_df_{bin_size}.parquet"):
-    print("Loading existing binned combined dataframe...")
-    binned_combined_df = pd.read_parquet(f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/binned_combined_df_{bin_size}.parquet")
-else:
-    combined_df['bin'] = combined_df['start'] // bin_size
-    binned_combined_df = combined_df.groupby(['sample', 'group', 'chrom', 'bin'])['wps_value'].mean()
-    binned_combined_df = binned_combined_df.reset_index()
-    print(binned_combined_df[binned_combined_df['chrom'] =='chr2'])
-    binned_combined_df['wps_value'] = binned_combined_df.groupby(['chrom', 'bin'])['wps_value'].transform(lambda x: x.fillna(x.median()))
-    binned_combined_df.to_parquet(f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/binned_combined_df_{bin_size}.parquet")
-
-
 # # Feature Matrix for LR rows=sample and columns=bins+groups 
 # 
 
-# In[16]:
+# In[ ]:
 
 
+binned_combined_df = pd.read_parquet("/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/binned_combined_df_50000.parquet")
 if os.path.exists(f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/final_feature_matrix_{bin_size}.parquet"):
     print("Loading existing final feature matrix...")
     final_feature_matrix = pd.read_parquet(f"/labmed/workspace/lotta/finaletoolkit/dataframes_for_ba/final_feature_matrix_{bin_size}.parquet")
@@ -280,7 +259,7 @@ else:
 # # Fragment Interval Analysis: Loading Files
 # 
 
-# In[17]:
+# In[ ]:
 
 
 frag_interval_dir = os.path.expanduser('/labmed/workspace/lotta/finaletoolkit/output_workflow/frag_intervals')
@@ -313,7 +292,7 @@ for sample in all_samples:
 frag_intervals_df = pd.concat(frag_intervals_results, ignore_index=True)
 
 
-# In[18]:
+# In[ ]:
 
 
 print(frag_intervals_df.head())
@@ -322,7 +301,7 @@ print(frag_intervals_df.head())
 # # Binning Fragment Interval Files
 # 
 
-# In[19]:
+# In[ ]:
 
 
 binned_df = (
@@ -341,19 +320,19 @@ print(binned_df.head())
 print(binned_df.shape)
 
 
-# In[20]:
+# In[ ]:
 
 
 print(binned_combined_df.head())
 
 
-# In[21]:
+# In[ ]:
 
 
 merged_df = pd.merge(
     binned_df,
     binned_combined_df[['sample', 'chrom', 'bin', 'wps_value']],
-    how='left',        # left join, falls manche Bins keinen WPS-Wert haben
+    how='left',
     on=['sample', 'chrom', 'bin']
 )
 
