@@ -146,12 +146,17 @@ def run_lasso_for_metrics(df, clinical_df, metrics, fast=True):
 
     if fast:
         # STAGE 1: fast screening
-        fast_pipeline=get_fast_pipeline()
+        fast_pipeline = get_fast_pipeline()
         fast_pipeline.fit(X_train, y_train)
-        y_prob = fast_pipeline.predict_proba(X_test)[:, 1]
+        
+        # FIX: Use internal CV AUC from LogisticRegressionCV instead of Test AUC to avoid leakage
+        # scores_[1] is for the positive class (cancer)
+        cv_scores = fast_pipeline.named_steps['lasso_cv'].scores_[1]
+        # Calculate mean of best scores across folds
+        mean_cv_auc = np.mean(np.max(cv_scores, axis=1))
 
         return {"metrics": metrics, 
-                "roc_auc": roc_auc_score(y_test, y_prob)
+                "roc_auc": mean_cv_auc
                 }
     
     # STAGE 2: full benchmarking for top 10 combinations

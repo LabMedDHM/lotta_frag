@@ -108,7 +108,7 @@ def get_stable_pipeline(c_1se):
     return stable_pipeline
 
 def get_simple_pipeline():
-    C_values = np.logspace(-4, 4, 50)
+    C_values = np.logspace(-1, 1, 50)
     simple_pipeline = Pipeline([
     ('scaler', StandardScaler()),
     ('lasso_cv', LogisticRegressionCV(
@@ -177,9 +177,9 @@ def calculate_stability(X_train, y_train, simple_pipeline, stable_pipeline):
     c_values = [c for c in c_values if c > 0 and not np.isnan(c)]
     c_variation = np.std(np.log10(c_values)) if len(c_values) > 0 else np.nan
 
-    cv_auc = np.mean([e['auc'] for e in cv_results])
+    outer_cv_auc = np.mean([e['auc'] for e in cv_results])
 
-    return n_stable, n_simple, n_pars, simple_stability_ratio, pars_stability_ratio, c_variation, cv_auc
+    return n_stable, n_simple, n_pars, simple_stability_ratio, pars_stability_ratio, c_variation, outer_cv_auc
 
 
 import ast
