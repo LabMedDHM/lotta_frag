@@ -96,6 +96,7 @@ def preprocess_data(df, clinical_df, STRATIFY_BY, metrics):
 
 def get_stable_pipeline(c_1se):
     stable_pipeline = Pipeline([
+    ('imputer', SimpleImputer(strategy="constant", fill_value=0.0, keep_empty_features=True)),
     ('scaler', StandardScaler()),
     ('stable_model', LogisticRegression(
         penalty='l1', 
@@ -104,12 +105,13 @@ def get_stable_pipeline(c_1se):
         max_iter=10000, 
         random_state=42
     ))
-    ]   )
+])
     return stable_pipeline
 
 def get_simple_pipeline():
     C_values = np.logspace(-1, 1, 50)
     simple_pipeline = Pipeline([
+    ('imputer', SimpleImputer(strategy="constant", fill_value=0.0, keep_empty_features=True)),
     ('scaler', StandardScaler()),
     ('lasso_cv', LogisticRegressionCV(
         Cs=C_values,
@@ -125,6 +127,7 @@ def get_simple_pipeline():
 
 def get_fast_pipeline():
     fast_pipeline = Pipeline([
+    ('imputer', SimpleImputer(strategy="constant", fill_value=0.0, keep_empty_features=True)),
     ('scaler', StandardScaler()),
     ('lasso_cv', LogisticRegressionCV(
         Cs=15, 

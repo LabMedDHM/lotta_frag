@@ -40,6 +40,13 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 # Optional: Auch ConvergenceWarnings ignorieren (falls LASSO nicht konvergiert)
 warnings.filterwarnings("ignore", category=ConvergenceWarning)
 
+# NEU: Nervige sklearn-Warnungen unterdrücken
+warnings.filterwarnings("ignore", category=UserWarning, module="sklearn.impute")
+warnings.filterwarnings("ignore", category=UserWarning, module="sklearn.linear_model._logistic")
+warnings.filterwarnings("ignore", category=RuntimeWarning, module="sklearn.utils.extmath")
+# Speziell für die L1/l1_ratio Deprecation-Warnung in sklearn 1.8+
+warnings.filterwarnings("ignore", message=".*penalty is deprecated.*")
+
 
 # # 0. Check Config
 
