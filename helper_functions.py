@@ -23,7 +23,6 @@ from matplotlib.colors import ListedColormap
 def preprocess_data(df, clinical_df, STRATIFY_BY, metrics):
     if isinstance(metrics, str):
         raise TypeError(f"'metrics' muss list/tuple sein, ist aber str: {metrics!r}")
-        
     df["bin_id"] = df["chrom"] + "_" + df["start"].astype(str)
 
     pivot_df = df.pivot(index="sample", columns="bin_id", values=list(metrics))
