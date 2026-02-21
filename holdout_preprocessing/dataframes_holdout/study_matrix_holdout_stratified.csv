@@ -1,55 +1,56 @@
 Extracted_ID;Patient Type;Study
-EE87922;Healthy;Cristiano
-EE87926;Healthy;Cristiano
-EE87933;Healthy;Cristiano
-EE87934;Healthy;Cristiano
-EE87935;Healthy;Cristiano
-EE87941;Healthy;Cristiano
-EE87950;Healthy;Cristiano
-EE87960;Healthy;Cristiano
+EE87936;Healthy;Cristiano
+EE87937;Healthy;Cristiano
+EE87947;Healthy;Cristiano
+EE87949;Healthy;Cristiano
+EE87952;Healthy;Cristiano
+EE87963;Healthy;Cristiano
 EE87964;Healthy;Cristiano
-EE87967;Healthy;Cristiano
-EE87969;Healthy;Cristiano
 EE87972;Healthy;Cristiano
-EE87978;Healthy;Cristiano
-EE87980;Healthy;Cristiano
-EE87990;Healthy;Cristiano
-EE87993;Healthy;Cristiano
-EE87994;Healthy;Cristiano
-EE87998;Healthy;Cristiano
-EE88005;Healthy;Cristiano
-EE88016;Healthy;Cristiano
-EE88022;Healthy;Cristiano
-EE88028;Healthy;Cristiano
-EE87798;Bile Duct Cancer;Cristiano
-EE87804;Bile Duct Cancer;Cristiano
-EE87806;Bile Duct Cancer;Cristiano
-EE87807;Bile Duct Cancer;Cristiano
+EE87977;Healthy;Cristiano
+EE87984;Healthy;Cristiano
+EE87986;Healthy;Cristiano
+EE87996;Healthy;Cristiano
+EE88002;Healthy;Cristiano
+EE88004;Healthy;Cristiano
+EE88006;Healthy;Cristiano
+EE88009;Healthy;Cristiano
+EE88011;Healthy;Cristiano
+EE88013;Healthy;Cristiano
+EE88019;Healthy;Cristiano
+EE88024;Healthy;Cristiano
+EE88031;Healthy;Cristiano
+EE87795;Bile Duct Cancer;Cristiano
+EE87796;Bile Duct Cancer;Cristiano
+EE87799;Bile Duct Cancer;Cristiano
+EE87803;Bile Duct Cancer;Cristiano
 EE87809;Bile Duct Cancer;Cristiano
-EE87810;Bile Duct Cancer;Cristiano
-EE87873;Colorectal Cancer;Cristiano
-EE87882;Colorectal Cancer;Cristiano
-EE87896;Gastric Cancer;Cristiano
+EE87874;Colorectal Cancer;Cristiano
+EE87876;Colorectal Cancer;Cristiano
+EE87880;Colorectal Cancer;Cristiano
+EE87881;Colorectal Cancer;Cristiano
+EE87889;Colorectal Cancer;Cristiano
+EE87897;Gastric Cancer;Cristiano
 EE87902;Gastric Cancer;Cristiano
-EE87904;Gastric Cancer;Cristiano
+EE87903;Gastric Cancer;Cristiano
+EE87907;Gastric Cancer;Cristiano
 EE87910;Gastric Cancer;Cristiano
-EE87913;Gastric Cancer;Cristiano
-EE87914;Gastric Cancer;Cristiano
+EE87915;Gastric Cancer;Cristiano
+EE88291;Pancreatic Cancer;Cristiano
 EE88292;Pancreatic Cancer;Cristiano
-EE88296;Pancreatic Cancer;Cristiano
-EE88300;Pancreatic Cancer;Cristiano
-EE88303;Pancreatic Cancer;Cristiano
-EE88312;Pancreatic Cancer;Cristiano
-EE88314;Pancreatic Cancer;Cristiano
-EE88318;Pancreatic Cancer;Cristiano
-EE88323;Pancreatic Cancer;Cristiano
-EE86275;Healthy;Snyder
-EE86272;Pancreatic Cancer;Cristiano
-EE86234;Colorectal Cancer;Snyder
-EE85918;Healthy;Jiang
-EE85970;Healthy;Jiang
+EE88301;Pancreatic Cancer;Cristiano
+EE88304;Pancreatic Cancer;Cristiano
+EE88313;Pancreatic Cancer;Cristiano
+EE88321;Pancreatic Cancer;Cristiano
+EE86259;Colorectal Cancer;Snyder
+EE87965;Healthy;Cristiano
+EE86271;Pancreatic Cancer;Cristiano
+EE86273;Pancreatic Cancer;Cristiano
+EE85898;Healthy;Jiang
+EE85941;Healthy;Jiang
+EE85963;Healthy;Jiang
+EE85987;Healthy;Jiang
 EE85723;Colorectal Cancer;Sun
-EE85787;Healthy;Jiang
-EE85816;Healthy;Jiang
+EE86244;Pancreatic Cancer;Snyder
+EE85860;Healthy;Jiang
 EE85861;Healthy;Jiang
-EE85878;Healthy;Jiang
