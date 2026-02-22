@@ -2,8 +2,8 @@ BIN_SIZE = 50000
 # ANALYSIS_MODE can be "all_vs_healthy" or "specific_vs_healthy"
 ANALYSIS_MODE = "all_vs_healthy" 
 if ANALYSIS_MODE == "specific_vs_healthy":
-    SPECIFIC_GROUP = "Gastric cancer" 
-    SPECIFIC_GROUP_FILE = "gastric" 
+    SPECIFIC_GROUP = "Colorectal Cancer" 
+    SPECIFIC_GROUP_FILE = "colorectal" 
 else:
     SPECIFIC_GROUP = "Pancancer"
     SPECIFIC_GROUP_FILE = "pancancer"
